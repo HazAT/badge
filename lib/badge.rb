@@ -1,7 +1,5 @@
-require 'badge/version'
-require 'badge/position'
+require 'badge/base'
 require 'badge/runner'
-require 'badge/screenshot'
 #
 require 'fastlane_core'
 #
