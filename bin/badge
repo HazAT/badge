@@ -25,10 +25,11 @@ class BadgeApplication
     command :existing_project do |c|
       c.syntax = 'badge'
       c.description = "adds a beta badge to your app icon"
+      c.option '--dark', 'adds a dark badge instead of the white'
       c.option '--custom STRING', String, 'overlay a custom image on your icon'
 
       c.action do |args, options|
-        Badge::Runner.new.run('.', options.custom)
+        Badge::Runner.new.run('.', options.dark, options.custom)
       end
     end
 

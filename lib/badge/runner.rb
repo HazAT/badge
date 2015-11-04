@@ -4,7 +4,7 @@ require 'mini_magick'
 module Badge
   class Runner
 
-    def run(path, custom_badge)
+    def run(path, dark_badge, custom_badge)
       app_icons = Dir.glob("#{path}/**/*.appiconset/*.{png,PNG}")
 
       if app_icons.count > 0
@@ -18,7 +18,7 @@ module Badge
           if custom_badge && File.exist?(custom_badge) # check if custom image is provided
             badge = MiniMagick::Image.open(custom_badge)
           else
-            badge = MiniMagick::Image.open("#{Badge.assets}/beta_badge.png")
+            badge = MiniMagick::Image.open(dark_badge ? Badge.dark_badge : Badge.light_badge)
           end
           
           badge.resize "#{icon.width}x#{icon.height}"

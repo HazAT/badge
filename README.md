@@ -16,7 +16,11 @@ It's built to easily integrate with [fastlane](https://github.com/fastlane/fastl
 
 becomes
 
-![assets/icon175x175_badged.png](assets/icon175x175_badged.png?raw=1) ![assets/icon175x175_fitrack_badged.png](assets/icon175x175_fitrack_badged.png?raw=1)
+![assets/icon175x175_light_badged.png](assets/icon175x175_light_badged.png?raw=1) ![assets/icon175x175_fitrack_light_badged.png](assets/icon175x175_fitrack_light_badged.png?raw=1)
+
+or with ```--dark```
+
+![assets/icon175x175_dark_badged.png](assets/icon175x175_dark_badged.png?raw=1) ![assets/icon175x175_fitrack_dark_badged.png](assets/icon175x175_fitrack_dark_badged.png?raw=1)
 
 # Installation
 
@@ -33,6 +37,10 @@ Call ```badge``` in your iOS projects root folder
 It will search all subfolders for your asset catalog app icon set and add the badge to the icon. 
 *Be careful, it actually overwrites the icon files because this gem is meant to be used in and automated build environment.*
 
+Here is the dark option:
+
+	badge --dark
+
 You can also use your custom overlay/badge image
 
     badge --custom="path_to/custom_badge.png"
@@ -44,7 +52,7 @@ lane :appstore do
   increment_build_number
   cocoapods
   
-  sh badge
+  sh "badge --dark"
   
   xctool
   snapshot
@@ -62,7 +70,7 @@ end
 	sudo gem uninstall badge
 
 # Thanks
-[@KrauseFx](https://twitter.com/KrauseFx) [fastlane](https://github.com/fastlane/fastlane) tools.
+[@ThomasMirnig](https://twitter.com/ThomasMirnig) [@KrauseFx](https://twitter.com/KrauseFx) [fastlane](https://github.com/fastlane/fastlane)
 
 # License
 This project is licensed under the terms of the MIT license. See the LICENSE file.
