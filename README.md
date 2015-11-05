@@ -52,7 +52,7 @@ lane :appstore do
   increment_build_number
   cocoapods
   
-  sh "badge --dark"
+  sh "cd ..; badge --dark"
   
   xctool
   snapshot
