@@ -25,6 +25,7 @@ module Badge
           result = icon.composite(badge) do |c|
             c.compose "Over"
           end
+          result.format "png"
           result.write full_path
         end
 
