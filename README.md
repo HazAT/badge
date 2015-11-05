@@ -52,7 +52,8 @@ lane :appstore do
   increment_build_number
   cocoapods
   
-  sh "cd ..; badge --dark"
+  badge(dark: true)
+  #badge(custom: "/Users/HazA/Desktop/badge.png")
   
   xctool
   snapshot
