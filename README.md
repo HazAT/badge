@@ -64,6 +64,10 @@ lane :appstore do
 end
 ```
 
+If Jenkins has problems finding imagemagick on your mac add following env variable to your job:
+
+	PATH=$PATH:/usr/local/bin
+
 
 ## Uninstall
 
