@@ -14,13 +14,21 @@ It's built to easily integrate with [fastlane](https://github.com/fastlane/fastl
 
 ![assets/icon175x175.png](assets/icon175x175.png?raw=1) ![assets/icon175x175_fitrack.png](assets/icon175x175_fitrack.png?raw=1)
 
-becomes
+```badge```
 
 ![assets/icon175x175_light_badged.png](assets/icon175x175_light_badged.png?raw=1) ![assets/icon175x175_fitrack_light_badged.png](assets/icon175x175_fitrack_light_badged.png?raw=1)
 
-or with ```--dark```
+```badge --dark```
 
 ![assets/icon175x175_dark_badged.png](assets/icon175x175_dark_badged.png?raw=1) ![assets/icon175x175_fitrack_dark_badged.png](assets/icon175x175_fitrack_dark_badged.png?raw=1)
+
+```badge --shield="1.2-2031-orange" --no_badge```
+
+![assets/icon175x175_shield_1.2-2031-orange.png](assets/icon175x175_shield_1.2-2031-orange.png?raw=1) ![assets/icon175x175_fitrack_shield_1.2-2031-orange.png](assets/icon175x175_fitrack_shield_1.2-2031-orange.png?raw=1)
+
+```badge --shield="Version-0.0.3-blue" --dark```
+
+![assets/icon175x175_shield_Version-0.0.3-blue.png](assets/icon175x175_shield_Version-0.0.3-blue.png?raw=1) ![assets/icon175x175_fitrack_shield_Version-0.0.3-blue.png](assets/icon175x175_fitrack_shield_Version-0.0.3-blue.png?raw=1)
 
 # Installation
 
@@ -44,6 +52,12 @@ Here is the dark option:
 You can also use your custom overlay/badge image
 
     badge --custom="path_to/custom_badge.png"
+    
+Add a shield at the top of your icon for all possibilites head over to: [shields.io](http://shields.io/). You just have to add the string of shield (copied from the URL)
+
+    badge --shield="Version-0.0.3-blue"
+    
+Add ```--no_badge``` as an option to hide the beta badge completely if you just want to add a shield. 
 
 # Usage with fastlane
 
@@ -52,10 +66,11 @@ lane :appstore do
   increment_build_number
   cocoapods
   
-  sh "cd ..; badge --dark"
+  sh "cd ..; badge --dark --shield="Version-0.0.3-blue""
   #badge(dark: true) ... coming soon after pull request is merged
   #badge(custom: "/Users/HazA/Desktop/badge.png") ... coming soon after pull request is merged
-  
+  #badge(shield: "Version-0.0.3-blue", no_badge: true) ... coming soon after pull request is merged
+    
   xctool
   snapshot
   sigh
