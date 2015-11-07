@@ -3,12 +3,27 @@ require 'mini_magick'
 
 module Badge
   class Runner
+  
+    def load_shield()
+      url = Badge.shield_base_url + Badge.shield_path + "build-432355-green" + ".png"
+      file_name = "build-432355-green" + ".png"
+
+      shield = Tempfile.new(file_name).tap do |file|
+        file.binmode
+        file.write(open(url).read)
+        file.close
+      end
+
+      shield
+    end
 
     def run(path, dark_badge, custom_badge)
       app_icons = Dir.glob("#{path}/**/*.appiconset/*.{png,PNG}")
 
       if app_icons.count > 0
         Helper.log.info "Start adding badges...".green
+
+        shield = load_shield()
 
         app_icons.each do |full_path|
           Helper.log.info "'#{full_path}'"
@@ -25,6 +40,15 @@ module Badge
           result = icon.composite(badge) do |c|
             c.compose "Over"
           end
+
+          current_shield = MiniMagick::Image.open(shield.path)
+          current_shield.resize "#{icon.width}x#{icon.height}>"
+          result = result.composite(current_shield) do |c|
+            c.compose "Over"
+            c.gravity "north" 
+            c.geometry "+0+2"
+          end
+
           result.format "png"
           result.write full_path
         end
