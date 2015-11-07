@@ -52,8 +52,9 @@ lane :appstore do
   increment_build_number
   cocoapods
   
-  badge(dark: true)
-  #badge(custom: "/Users/HazA/Desktop/badge.png")
+  sh "cd ..; badge --dark"
+  #badge(dark: true) ... coming soon after pull request is merged
+  #badge(custom: "/Users/HazA/Desktop/badge.png") ... coming soon after pull request is merged
   
   xctool
   snapshot
