@@ -27,9 +27,11 @@ class BadgeApplication
       c.description = "adds a beta badge to your app icon"
       c.option '--dark', 'adds a dark badge instead of the white'
       c.option '--custom STRING', String, 'overlay a custom image on your icon'
+      c.option '--no_badge', 'removes the beta badge'
+      c.option '--shield STRING', String, 'overlay a shield from shield.io on your icon, eg: Version-1.2-green'
 
       c.action do |args, options|
-        Badge::Runner.new.run('.', options.dark, options.custom)
+        Badge::Runner.new.run('.', options.dark, options.custom, options.no_badge, options.shield)
       end
     end
 

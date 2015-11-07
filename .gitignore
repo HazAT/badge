@@ -8,6 +8,7 @@
 /test/tmp/
 /test/version_tmp/
 /tmp/
+.idea
 
 ## Specific to RubyMotion:
 .dat*
