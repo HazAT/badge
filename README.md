@@ -66,7 +66,7 @@ lane :appstore do
   increment_build_number
   cocoapods
   
-  sh "cd ..; badge --dark --shield="Version-0.0.3-blue""
+  sh "cd ..; badge --dark --shield='Version-0.0.3-blue'"
   #badge(dark: true) ... coming soon after pull request is merged
   #badge(custom: "/Users/HazA/Desktop/badge.png") ... coming soon after pull request is merged
   #badge(shield: "Version-0.0.3-blue", no_badge: true) ... coming soon after pull request is merged
