@@ -65,7 +65,7 @@ Add ```--no_badge``` as an option to hide the beta badge completely if you just 
 lane :appstore do
   increment_build_number
   cocoapods
-  
+
   badge(dark: true) #or
   #badge(custom: "/Users/HazA/Desktop/badge.png") #or
   #badge(shield: "Version-0.0.3-blue", no_badge: true)
