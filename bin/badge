@@ -18,6 +18,8 @@ class BadgeApplication
     program :help, 'GitHub', 'https://github.com/HazAT/badge'
     program :help_formatter, :compact
 
+    global_option('--verbose', 'Shows a more verbose output') { $verbose = true }
+
     always_trace!
 
     default_command :existing_project

@@ -27,4 +27,8 @@ module Badge
 		'/badge/'
 	end
 
+	def self.shield_io_timeout
+		10
+	end
+
 end
