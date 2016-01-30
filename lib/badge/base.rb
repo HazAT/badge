@@ -11,12 +11,20 @@ module Badge
 		File.join root, 'assets'
 	end
 
-	def self.light_badge
+	def self.beta_light_badge
 		File.join assets, 'beta_badge_light.png'
 	end
 
-	def self.dark_badge
+	def self.beta_dark_badge
 		File.join assets, 'beta_badge_dark.png'
+	end
+
+	def self.alpha_light_badge
+		File.join assets, 'alpha_badge_light.png'
+	end
+
+	def self.alpha_dark_badge
+		File.join assets, 'alpha_badge_dark.png'
 	end
 
 	def self.shield_base_url

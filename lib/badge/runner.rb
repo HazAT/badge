@@ -5,7 +5,7 @@ require 'mini_magick'
 module Badge
   class Runner
 
-    def run(path, dark_badge, custom_badge, no_badge, shield_string)
+    def run(path, dark_badge, custom_badge, no_badge, shield_string, alpha_badge)
       app_icons = Dir.glob("#{path}/**/*.appiconset/*.{png,PNG}")
 
       Helper.log.info "Verbose active...".blue unless not $verbose
@@ -28,7 +28,7 @@ module Badge
           icon = MiniMagick::Image.new(full_path)
 
           result = MiniMagick::Image.new(full_path)
-          result = add_beta_badge(custom_badge, dark_badge, icon) unless no_badge
+          result = add_badge(custom_badge, dark_badge, icon, alpha_badge) unless no_badge
 
           result = add_shield(icon, result, shield) unless not shield
 
@@ -67,12 +67,16 @@ module Badge
       end
     end
 
-    def add_beta_badge(custom_badge, dark_badge, icon)
+    def add_badge(custom_badge, dark_badge, icon, alpha_badge)
       Helper.log.info "Adding beta badge image ontop of icon".blue unless not $verbose
       if custom_badge && File.exist?(custom_badge) # check if custom image is provided
         badge = MiniMagick::Image.open(custom_badge)
       else
-        badge = MiniMagick::Image.open(dark_badge ? Badge.dark_badge : Badge.light_badge)
+        if alpha_badge
+          badge = MiniMagick::Image.open(dark_badge ? Badge.alpha_dark_badge : Badge.alpha_light_badge)
+        else
+          badge = MiniMagick::Image.open(dark_badge ? Badge.beta_dark_badge : Badge.beta_light_badge)
+        end
       end
 
       badge.resize "#{icon.width}x#{icon.height}"
