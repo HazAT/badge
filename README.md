@@ -22,7 +22,7 @@ It's built to easily integrate with [fastlane](https://github.com/fastlane/fastl
 
 ![assets/icon175x175_dark_badged.png](assets/icon175x175_dark_badged.png?raw=1) ![assets/icon175x175_fitrack_dark_badged.png](assets/icon175x175_fitrack_dark_badged.png?raw=1)
 
-  badge --alpha
+    badge --alpha
 
 ![assets/icon175x175_alpha_light_badged.png](assets/icon175x175_alpha_light_badged.png?raw=1) ![assets/icon175x175_fitrack_alpha_light_badged.png](assets/icon175x175_fitrack_alpha_light_badged.png?raw=1)
 
@@ -49,7 +49,7 @@ Call ```badge``` in your iOS projects root folder
 It will search all subfolders for your asset catalog app icon set and add the badge to the icon. 
 *Be careful, it actually overwrites the icon files because this gem is meant to be used in and automated build environment.*
 
-Here is the dark option:
+Here is the dark option (also available in combination with ```--alpha```):
 
 	badge --dark
 
@@ -71,6 +71,7 @@ lane :appstore do
   cocoapods
 
   badge(dark: true) #or
+  #badge(alpha: true) #or
   #badge(custom: "/Users/HazA/Desktop/badge.png") #or
   #badge(shield: "Version-0.0.3-blue", no_badge: true)
     
