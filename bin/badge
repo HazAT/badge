@@ -12,7 +12,7 @@ class BadgeApplication
 
   def run
     program :version, Badge::VERSION
-    program :description, 'Add a beta badge to your app icon'
+    program :description, 'Add a badge to your ios app icon'
     program :help, 'Author', 'Daniel Griesser <daniel.griesser.86@gmail.com>'
     program :help, 'Website', 'https://github.com/HazAT/badge'
     program :help, 'GitHub', 'https://github.com/HazAT/badge'
@@ -26,15 +26,21 @@ class BadgeApplication
 
     command :existing_project do |c|
       c.syntax = 'badge'
-      c.description = "adds a beta badge to your app icon"
-      c.option '--dark', 'adds a dark badge instead of the white'
-      c.option '--alpha', 'uses the word alpha instead of beta'
-      c.option '--custom STRING', String, 'overlay a custom image on your icon'
-      c.option '--no_badge', 'removes the beta badge'
-      c.option '--shield STRING', String, 'overlay a shield from shield.io on your icon, eg: Version-1.2-green'
+      c.description = "Adds a badge to your ios app icon"
+      c.option '--dark', 'Adds a dark badge instead of the white'
+      c.option '--alpha', 'Uses the word alpha instead of beta'
+      c.option '--custom STRING', String, 'Overlay a custom image on your icon'
+      c.option '--no_badge', 'Removes the beta badge'
+      c.option '--shield STRING', String, 'Overlay a shield from shield.io on your icon, eg: Version-1.2-green'
 
       c.action do |args, options|
-        Badge::Runner.new.run('.', options.dark, options.custom, options.no_badge, options.shield, options.alpha)
+        params = {}
+        params[:dark] = options.dark
+        params[:custom_badge] = options.custom
+        params[:no_badge] = options.no_badge
+        params[:shield_string] = options.shield
+        params[:alpha_badge] = options.alpha
+        Badge::Runner.new.run('.', params)
       end
     end
 

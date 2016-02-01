@@ -5,10 +5,10 @@ require 'mini_magick'
 module Badge
   class Runner
 
-    def run(path, dark_badge, custom_badge, no_badge, shield_string, alpha_badge)
+    def run(path, options)
       app_icons = Dir.glob("#{path}/**/*.appiconset/*.{png,PNG}")
-
       Helper.log.info "Verbose active...".blue unless not $verbose
+      Helper.log.info "Parameters: #{options.inspect}".blue unless not $verbose
 
       if app_icons.count > 0
         Helper.log.info "Start adding badges...".green
@@ -16,7 +16,7 @@ module Badge
         shield = nil
         begin
           Timeout.timeout(Badge.shield_io_timeout) do
-            shield = load_shield(shield_string) unless not shield_string
+            shield = load_shield(options[:shield_string]) unless not options[:shield_string]
           end
         rescue Timeout::Error
           Helper.log.error "Error loading image from shield.io timeout reached. Skipping Shield. Use --verbose for more info".red
@@ -28,7 +28,7 @@ module Badge
           icon = MiniMagick::Image.new(full_path)
 
           result = MiniMagick::Image.new(full_path)
-          result = add_badge(custom_badge, dark_badge, icon, alpha_badge) unless no_badge
+          result = add_badge(options[:custom_badge], options[:dark], icon, options[:alpha_badge]) unless options[:no_badge]
 
           result = add_shield(icon, result, shield) unless not shield
 
@@ -57,7 +57,7 @@ module Badge
       url = Badge.shield_base_url + Badge.shield_path + shield_string + ".png"
       file_name = shield_string + ".png"
 
-      Helper.log.info "Trying to load image from shield.io. Timeout: ".blue unless not $verbose
+      Helper.log.info "Trying to load image from shield.io. Timeout: #{Badge.shield_io_timeout}s".blue unless not $verbose
       Helper.log.info "URL: #{url}".blue unless not $verbose
 
       shield = Tempfile.new(file_name).tap do |file|
@@ -68,7 +68,7 @@ module Badge
     end
 
     def add_badge(custom_badge, dark_badge, icon, alpha_badge)
-      Helper.log.info "Adding beta badge image ontop of icon".blue unless not $verbose
+      Helper.log.info "Adding badge image ontop of icon".blue unless not $verbose
       if custom_badge && File.exist?(custom_badge) # check if custom image is provided
         badge = MiniMagick::Image.open(custom_badge)
       else

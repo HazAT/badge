@@ -1,7 +1,7 @@
 module Badge
 
-	VERSION = "0.0.5"
-	DESCRIPTION = "Add a badge overlay to your app icon"
+	VERSION = "0.1.0"
+	DESCRIPTION = "Add a badge overlay to your ios app icon"
 
 	def self.root
 		File.dirname __dir__ + "/../../../"
