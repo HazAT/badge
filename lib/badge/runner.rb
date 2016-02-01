@@ -16,7 +16,7 @@ module Badge
         shield = nil
         begin
           Timeout.timeout(Badge.shield_io_timeout) do
-            shield = load_shield(options[:shield_string]) unless not options[:shield_string]
+            shield = load_shield(options[:shield]) unless not options[:shield]
           end
         rescue Timeout::Error
           Helper.log.error "Error loading image from shield.io timeout reached. Skipping Shield. Use --verbose for more info".red
@@ -28,7 +28,7 @@ module Badge
           icon = MiniMagick::Image.new(full_path)
 
           result = MiniMagick::Image.new(full_path)
-          result = add_badge(options[:custom_badge], options[:dark], icon, options[:alpha_badge]) unless options[:no_badge]
+          result = add_badge(options[:custom], options[:dark], icon, options[:alpha]) unless options[:no_badge]
 
           result = add_shield(icon, result, shield) unless not shield
 

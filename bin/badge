@@ -36,10 +36,10 @@ class BadgeApplication
       c.action do |args, options|
         params = {}
         params[:dark] = options.dark
-        params[:custom_badge] = options.custom
+        params[:custom] = options.custom
         params[:no_badge] = options.no_badge
-        params[:shield_string] = options.shield
-        params[:alpha_badge] = options.alpha
+        params[:shield] = options.shield
+        params[:alpha] = options.alpha
         Badge::Runner.new.run('.', params)
       end
     end

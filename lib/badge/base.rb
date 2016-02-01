@@ -1,6 +1,6 @@
 module Badge
 
-	VERSION = "0.1.0"
+	VERSION = "0.1.1"
 	DESCRIPTION = "Add a badge overlay to your ios app icon"
 
 	def self.root
