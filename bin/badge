@@ -32,6 +32,7 @@ class BadgeApplication
       c.option '--custom STRING', String, 'Overlay a custom image on your icon'
       c.option '--no_badge', 'Removes the beta badge'
       c.option '--shield STRING', String, 'Overlay a shield from shield.io on your icon, eg: Version-1.2-green'
+      c.option '--glob STRING', String, 'Glob pattern for finding image files'
 
       c.action do |args, options|
         params = {}
@@ -40,6 +41,7 @@ class BadgeApplication
         params[:no_badge] = options.no_badge
         params[:shield] = options.shield
         params[:alpha] = options.alpha
+        params[:glob] = options.glob
         Badge::Runner.new.run('.', params)
       end
     end

@@ -6,7 +6,10 @@ module Badge
   class Runner
 
     def run(path, options)
-      app_icons = Dir.glob("#{path}/**/*.appiconset/*.{png,PNG}")
+      glob = "/**/*.appiconset/*.{png,PNG}"
+      glob = options[:glob] unless not options[:glob]
+
+      app_icons = Dir.glob("#{path}#{glob}")
       Helper.log.info "Verbose active...".blue unless not $verbose
       Helper.log.info "Parameters: #{options.inspect}".blue unless not $verbose
 
