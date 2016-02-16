@@ -66,6 +66,7 @@ module Badge
       current_shield.resize "#{icon.width}x#{icon.height}>"
       result = result.composite(current_shield) do |c|
         c.compose "Over"
+        c.alpha 'On'
         c.gravity "north"
       end
     end
@@ -100,6 +101,7 @@ module Badge
       badge.resize "#{icon.width}x#{icon.height}"
       result = icon.composite(badge) do |c|
         c.compose "Over"
+        c.alpha 'On'
       end
     end
   end
