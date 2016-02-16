@@ -1,4 +1,4 @@
-badge - add a badge to your iOS app icon
+badge - add a badge to your iOS/Android app icon
 ============
 
 [![Twitter: @DanielGri](https://img.shields.io/badge/contact-@DanielGri-blue.svg?style=flat)](https://twitter.com/DanielGri)
@@ -7,7 +7,7 @@ badge - add a badge to your iOS app icon
 
 # Features
 
-This gem helps to add a badge to your iOS app icon.
+This gem helps to add a badge to your iOS/Android app icon.
 
 Yes that's it.
 It's built to easily integrate with [fastlane](https://github.com/fastlane/fastlane).
@@ -46,8 +46,12 @@ Call ```badge``` in your iOS projects root folder
 
     badge
     
-It will search all subfolders for your asset catalog app icon set and add the badge to the icon. 
-*Be careful, it actually overwrites the icon files because this gem is meant to be used in and automated build environment.*
+It will search all subfolders for your asset catalog app icon set and add the badge to the icons. 
+
+But you can also run badge on your Android icons.
+You have to use the `--glob="/**/*.appiconset/*.{png,PNG}"` parameter to adjust where to find your icons. 
+    
+*Be careful, it actually overwrites the icon files.*
 
 Here is the dark option (also available in combination with ```--alpha```):
 
@@ -61,7 +65,10 @@ Add a shield at the top of your icon for all possibilites head over to: [shields
 
     badge --shield="Version-0.0.3-blue"
     
+Sometimes the response from shield.io takes a long time and can timeout. You can adjust the timeout to shield.io with `--shield_io_timeout=10` accordingly.
+
 Add ```--no_badge``` as an option to hide the beta badge completely if you just want to add a shield. 
+
 
 # Usage with fastlane
 

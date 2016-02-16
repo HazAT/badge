@@ -18,34 +18,48 @@ module Badge
 
         shield = nil
         begin
-          Timeout.timeout(Badge.shield_io_timeout) do
+          timeout = Badge.shield_io_timeout
+          timeout = options[:shield_io_timeout] unless not options[:shield_io_timeout]
+          Timeout.timeout(timeout.to_i) do
             shield = load_shield(options[:shield]) unless not options[:shield]
           end
         rescue Timeout::Error
           Helper.log.error "Error loading image from shield.io timeout reached. Skipping Shield. Use --verbose for more info".red
         end
 
+        icon_changed = false
         app_icons.each do |full_path|
-          Helper.log.info "'#{full_path}'"
           icon_path = Pathname.new(full_path)
           icon = MiniMagick::Image.new(full_path)
 
           result = MiniMagick::Image.new(full_path)
-          result = add_badge(options[:custom], options[:dark], icon, options[:alpha]) unless options[:no_badge]
-
-          result = add_shield(icon, result, shield) unless not shield
-
-          result.format "png"
-          result.write full_path
+          
+          if !options[:no_badge]
+            result = add_badge(options[:custom], options[:dark], icon, options[:alpha])
+            icon_changed = true
+          end
+          if shield
+            result = add_shield(icon, result, shield)
+            icon_changed = true
+          end
+          
+          if icon_changed
+            result.format "png"
+            result.write full_path 
+          end
         end
-
-        Helper.log.info "Badged \\o/!".green
+        if icon_changed
+          Helper.log.info "Badged \\o/!".green
+        else
+          Helper.log.info "Did nothing... Enable --verbose for more info.".red
+        end
       else
         Helper.log.error "Could not find any app icons...".red
       end
     end
 
     def add_shield(icon, result, shield)
+      Helper.log.info "'#{icon.path}'"
       Helper.log.info "Adding shield.io image ontop of icon".blue unless not $verbose
 
       current_shield = MiniMagick::Image.open(shield.path)
@@ -71,6 +85,7 @@ module Badge
     end
 
     def add_badge(custom_badge, dark_badge, icon, alpha_badge)
+      Helper.log.info "'#{icon.path}'"
       Helper.log.info "Adding badge image ontop of icon".blue unless not $verbose
       if custom_badge && File.exist?(custom_badge) # check if custom image is provided
         badge = MiniMagick::Image.open(custom_badge)
