@@ -13,6 +13,11 @@ module Badge
       Helper.log.info "Verbose active...".blue unless not $verbose
       Helper.log.info "Parameters: #{options.inspect}".blue unless not $verbose
 
+      alpha_channel = false
+      if options[:alpha_channel]
+        alpha_channel = true
+      end
+
       if app_icons.count > 0
         Helper.log.info "Start adding badges...".green
 
@@ -35,11 +40,11 @@ module Badge
           result = MiniMagick::Image.new(full_path)
           
           if !options[:no_badge]
-            result = add_badge(options[:custom], options[:dark], icon, options[:alpha])
+            result = add_badge(options[:custom], options[:dark], icon, options[:alpha], alpha_channel)
             icon_changed = true
           end
           if shield
-            result = add_shield(icon, result, shield)
+            result = add_shield(icon, result, shield, alpha_channel)
             icon_changed = true
           end
           
@@ -58,15 +63,15 @@ module Badge
       end
     end
 
-    def add_shield(icon, result, shield)
+    def add_shield(icon, result, shield, alpha_channel)
       Helper.log.info "'#{icon.path}'"
       Helper.log.info "Adding shield.io image ontop of icon".blue unless not $verbose
 
       current_shield = MiniMagick::Image.open(shield.path)
       current_shield.resize "#{icon.width}x#{icon.height}>"
-      result = result.composite(current_shield,'png') do |c|
+      result = result.composite(current_shield, 'png') do |c|
         c.compose "Over"
-        c.alpha 'On'
+        c.alpha 'On' unless !alpha_channel
         c.gravity "north"
       end
     end
@@ -85,7 +90,7 @@ module Badge
       end
     end
 
-    def add_badge(custom_badge, dark_badge, icon, alpha_badge)
+    def add_badge(custom_badge, dark_badge, icon, alpha_badge, alpha_channel)
       Helper.log.info "'#{icon.path}'"
       Helper.log.info "Adding badge image ontop of icon".blue unless not $verbose
       if custom_badge && File.exist?(custom_badge) # check if custom image is provided
@@ -101,7 +106,7 @@ module Badge
       badge.resize "#{icon.width}x#{icon.height}"
       result = icon.composite(badge, 'png') do |c|
         c.compose "Over"
-        c.alpha 'On'
+        c.alpha 'On' unless !alpha_channel
       end
     end
   end

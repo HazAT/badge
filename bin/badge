@@ -29,6 +29,7 @@ class BadgeApplication
       c.description = "Adds a badge to your ios app icon"
       c.option '--dark', 'Adds a dark badge instead of the white'
       c.option '--alpha', 'Uses the word alpha instead of beta'
+      c.option '--alpha_channel', 'Keeps/Adds an alpha channel to the icons'
       c.option '--custom STRING', String, 'Overlay a custom image on your icon'
       c.option '--no_badge', 'Removes the beta badge'
       c.option '--shield STRING', String, 'Overlay a shield from shield.io on your icon, eg: Version-1.2-green'
@@ -44,6 +45,7 @@ class BadgeApplication
         params[:shield_io_timeout] = options.shield_io_timeout
         params[:alpha] = options.alpha
         params[:glob] = options.glob
+        params[:alpha_channel] = options.alpha_channel
         Badge::Runner.new.run('.', params)
       end
     end
