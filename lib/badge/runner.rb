@@ -64,7 +64,7 @@ module Badge
 
       current_shield = MiniMagick::Image.open(shield.path)
       current_shield.resize "#{icon.width}x#{icon.height}>"
-      result = result.composite(current_shield) do |c|
+      result = result.composite(current_shield,'png') do |c|
         c.compose "Over"
         c.gravity "north"
       end
@@ -98,7 +98,7 @@ module Badge
       end
 
       badge.resize "#{icon.width}x#{icon.height}"
-      result = icon.composite(badge) do |c|
+      result = icon.composite(badge, 'png') do |c|
         c.compose "Over"
       end
     end
