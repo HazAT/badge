@@ -49,7 +49,9 @@ Call ```badge``` in your iOS projects root folder
 It will search all subfolders for your asset catalog app icon set and add the badge to the icons. 
 
 But you can also run badge on your Android icons.
-You have to use the `--glob="/**/*.appiconset/*.{png,PNG}"` parameter to adjust where to find your icons. 
+You have to use the `--glob="/**/*.appiconset/*.{png,PNG}"` parameter to adjust where to find your icons.
+
+The keep the alpha channel in the icons use `--alpha_channel`
     
 *Be careful, it actually overwrites the icon files.*
 
