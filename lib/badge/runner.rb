@@ -44,7 +44,7 @@ module Badge
             icon_changed = true
           end
           if shield
-            result = add_shield(icon, result, shield, alpha_channel, options[:shield_gravity])
+            result = add_shield(icon, result, shield, alpha_channel, options[:shield_gravity], options[:shield_no_resize])
             icon_changed = true
           end
           
@@ -63,12 +63,18 @@ module Badge
       end
     end
 
-    def add_shield(icon, result, shield, alpha_channel, shield_gravity)
+    def add_shield(icon, result, shield, alpha_channel, shield_gravity, shield_no_resize)
       Helper.log.info "'#{icon.path}'"
       Helper.log.info "Adding shield.io image ontop of icon".blue unless not $verbose
 
       current_shield = MiniMagick::Image.open(shield.path)
-      current_shield.resize "#{icon.width}x#{icon.height}>"
+      
+      if icon.width > current_shield.width && !shield_no_resize
+        current_shield.resize "#{icon.width}x#{icon.height}<"
+      else
+        current_shield.resize "#{icon.width}x#{icon.height}>"
+      end
+      
       result = result.composite(current_shield, 'png') do |c|
         c.compose "Over"
         c.alpha 'On' unless !alpha_channel
