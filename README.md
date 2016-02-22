@@ -40,6 +40,7 @@ Install the gem
 
     sudo gem install badge
 
+
 # Usage
 
 Call ```badge``` in your iOS projects root folder
@@ -69,10 +70,17 @@ Add a shield at the top of your icon for all possibilites head over to: [shields
     
 Sometimes the response from shield.io takes a long time and can timeout. You can adjust the timeout to shield.io with `--shield_io_timeout=10` accordingly.
 
+`--shield-gravity=North` changes the postion of the shield on the icon. Choices include: NorthWest, North, NorthEast, West, Center, East, SouthWest, South, SouthEast.
+
+In version `0.4.0` (coming soon) the default behavior of the shield graphic has been changed. The shield graphic will always be resized to **aspect fill** the icon instead of just adding the shield on the icon. The disable to new behaviour use `--shield_no_resize` which now only puts the shield on the icon again.
+
 Add ```--no_badge``` as an option to hide the beta badge completely if you just want to add a shield. 
 
+Use `badge existing_project --help` to get list all possible parameters.
 
 # Usage with fastlane
+
+I try to keep fastlane integration up-to-date with the gem version. So generally you can use every parameter with fastlane which is also available directly in the gem. It mainly depends how fast the pull requests get merged and a new version of fastlane is available. If there is a problem you can always fallback to the fastlane `sh "cd ..; badge --dark"` command to use everything like it is used in the command line.
 
 ```ruby
 lane :appstore do
@@ -93,6 +101,8 @@ lane :appstore do
   slack
 end
 ```
+
+# Common problems
 
 If Jenkins has problems finding imagemagick on your mac add following env variable to your job:
 
