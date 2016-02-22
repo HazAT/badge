@@ -44,7 +44,7 @@ module Badge
             icon_changed = true
           end
           if shield
-            result = add_shield(icon, result, shield, alpha_channel)
+            result = add_shield(icon, result, shield, alpha_channel, options[:shield_gravity])
             icon_changed = true
           end
           
@@ -63,7 +63,7 @@ module Badge
       end
     end
 
-    def add_shield(icon, result, shield, alpha_channel)
+    def add_shield(icon, result, shield, alpha_channel, shield_gravity)
       Helper.log.info "'#{icon.path}'"
       Helper.log.info "Adding shield.io image ontop of icon".blue unless not $verbose
 
@@ -72,7 +72,11 @@ module Badge
       result = result.composite(current_shield, 'png') do |c|
         c.compose "Over"
         c.alpha 'On' unless !alpha_channel
-        c.gravity "north"
+        if shield_gravity
+          c.gravity shield_gravity
+        else
+          c.gravity "north"
+        end
       end
     end
 
