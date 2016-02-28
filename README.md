@@ -30,10 +30,17 @@ It's built to easily integrate with [fastlane](https://github.com/fastlane/fastl
 
 ![assets/icon175x175_shield_1.2-2031-orange.png](assets/icon175x175_shield_1.2-2031-orange.png?raw=1) ![assets/icon175x175_fitrack_shield_1.2-2031-orange.png](assets/icon175x175_fitrack_shield_1.2-2031-orange.png?raw=1)
 
+	badge --shield="1.2-2031-orange" --no_badge --shield_no_resize
+
+![assets/icon175x175_shield_1.2-2031-orange-no-resize.png](assets/icon175x175_shield_1.2-2031-orange-no-resize.png?raw=1) ![assets/icon175x175_fitrack_shield_1.2-2031-orange-no-resize.png](assets/icon175x175_fitrack_shield_1.2-2031-orange-no-resize.png?raw=1)
+
 	badge --shield="Version-0.0.3-blue" --dark
 
 ![assets/icon175x175_shield_Version-0.0.3-blue.png](assets/icon175x175_shield_Version-0.0.3-blue.png?raw=1) ![assets/icon175x175_fitrack_shield_Version-0.0.3-blue.png](assets/icon175x175_fitrack_shield_Version-0.0.3-blue.png?raw=1)
 
+	badge --shield="Version-0.0.3-blue" --dark --shield_no_resize
+
+![assets/icon175x175_shield_Version-0.0.3-blue-no-resize.png](assets/icon175x175_shield_Version-0.0.3-blue-no-resize.png?raw=1) ![assets/icon175x175_fitrack_shield_Version-0.0.3-blue-no-resize.png](assets/icon175x175_fitrack_shield_Version-0.0.3-blue-no-resize.png?raw=1)
 # Installation
 
 Install the gem

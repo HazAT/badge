@@ -35,7 +35,7 @@ class BadgeApplication
       c.option '--shield STRING', String, 'Overlay a shield from shield.io on your icon, eg: Version-1.2-green'
       c.option '--shield_io_timeout INTEGER', Integer, 'The timeout in seconds we should wait the get a response from shield.io'
       c.option '--shield_gravity STRING', String, 'Position of shield on icon. Default: North - Choices include: NorthWest, North, NorthEast, West, Center, East, SouthWest, South, SouthEast.'
-      c.option '--shield_no_resize', 'Shild image will no longer be resized to fill full image, instead it will only be shrinked to not exceed the icon graphic.'
+      c.option '--shield_no_resize', 'Shield image will no longer be resized to aspect fill the full icon. Instead it will only be shrinked to not exceed the icon graphic.'
       c.option '--glob STRING', String, 'Glob pattern for finding image files Default: CURRENT_PATH/**/*.appiconset/*.{png,PNG}'
 
       c.action do |args, options|
