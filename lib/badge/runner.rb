@@ -4,6 +4,7 @@ require 'mini_magick'
 
 module Badge
   class Runner
+    @@retry_count = Badge.shield_io_retries
 
     def run(path, options)
       glob = "/**/*.appiconset/*.{png,PNG}"
@@ -22,6 +23,7 @@ module Badge
         Helper.log.info "Start adding badges...".green
 
         shield = nil
+        response_error = false
         begin
           timeout = Badge.shield_io_timeout
           timeout = options[:shield_io_timeout] unless not options[:shield_io_timeout]
@@ -30,6 +32,20 @@ module Badge
           end
         rescue Timeout::Error
           Helper.log.error "Error loading image from shield.io timeout reached. Skipping Shield. Use --verbose for more info".red
+        rescue OpenURI::HTTPError => error
+          response = error.io
+          Helper.log.error "Error loading image from shield.io response Error. Skipping Shield. Use --verbose for more info".red
+          Helper.log.error response.status unless not $verbose
+          response_error = true
+        end
+
+        if @@retry_count <= 0
+          Helper.log.error "Cannot load image from shield.io skipping it...".red
+        elsif response_error
+          Helper.log.info "Waiting for #{timeout.to_i}s and retry to load image from shield.io tries remaining: #{@@retry_count}".red
+          sleep timeout.to_i
+          @@retry_count -= 1
+          return run(path, options)
         end
 
         icon_changed = false
