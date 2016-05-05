@@ -79,7 +79,7 @@ Sometimes the response from shield.io takes a long time and can timeout. You can
 
 `--shield_gravity=North` changes the postion of the shield on the icon. Choices include: NorthWest, North, NorthEast, West, Center, East, SouthWest, South, SouthEast.
 
-In version `0.4.0` (coming soon) the default behavior of the shield graphic has been changed. The shield graphic will always be resized to **aspect fill** the icon instead of just adding the shield on the icon. The disable to new behaviour use `--shield_no_resize` which now only puts the shield on the icon again.
+In version [0.4.0](https://github.com/HazAT/badge/releases/tag/0.4.0) the default behavior of the shield graphic has been changed. The shield graphic will always be resized to **aspect fill** the icon instead of just adding the shield on the icon. The disable to new behaviour use `--shield_no_resize` which now only puts the shield on the icon again.
 
 Add ```--no_badge``` as an option to hide the beta badge completely if you just want to add a shield. 
 
@@ -114,7 +114,10 @@ end
 If Jenkins has problems finding imagemagick on your mac add following env variable to your job:
 
 	PATH=$PATH:/usr/local/bin
+	
+Make sure you have imagemagick installed on your machine e.g. for Mac its:
 
+	brew install imagemagick
 
 ## Uninstall
 
