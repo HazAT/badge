@@ -8,11 +8,11 @@ module Badge
 
     def run(path, options)
       glob = "/**/*.appiconset/*.{png,PNG}"
-      glob = options[:glob] unless not options[:glob]
+      glob = options[:glob] if options[:glob]
 
       app_icons = Dir.glob("#{path}#{glob}")
-      Helper.log.info "Verbose active...".blue unless not $verbose
-      Helper.log.info "Parameters: #{options.inspect}".blue unless not $verbose
+      UI.verbose "Verbose active...".blue
+      UI.verbose "Parameters: #{options.inspect}".blue
 
       alpha_channel = false
       if options[:alpha_channel]
@@ -20,29 +20,29 @@ module Badge
       end
 
       if app_icons.count > 0
-        Helper.log.info "Start adding badges...".green
+        UI.message "Start adding badges...".green
 
         shield = nil
         response_error = false
         begin
           timeout = Badge.shield_io_timeout
-          timeout = options[:shield_io_timeout] unless not options[:shield_io_timeout]
+          timeout = options[:shield_io_timeout] if options[:shield_io_timeout]
           Timeout.timeout(timeout.to_i) do
-            shield = load_shield(options[:shield]) unless not options[:shield]
+            shield = load_shield(options[:shield]) if options[:shield]
           end
         rescue Timeout::Error
-          Helper.log.error "Error loading image from shield.io timeout reached. Skipping Shield. Use --verbose for more info".red
+          UI.error "Error loading image from shield.io timeout reached. Skipping Shield. Use --verbose for more info".red
         rescue OpenURI::HTTPError => error
           response = error.io
-          Helper.log.error "Error loading image from shield.io response Error. Skipping Shield. Use --verbose for more info".red
-          Helper.log.error response.status unless not $verbose
+          UI.error "Error loading image from shield.io response Error. Skipping Shield. Use --verbose for more info".red
+          UI.error response.status if $verbose
           response_error = true
         end
 
         if @@retry_count <= 0
-          Helper.log.error "Cannot load image from shield.io skipping it...".red
+          UI.error "Cannot load image from shield.io skipping it...".red
         elsif response_error
-          Helper.log.info "Waiting for #{timeout.to_i}s and retry to load image from shield.io tries remaining: #{@@retry_count}".red
+          UI.message "Waiting for #{timeout.to_i}s and retry to load image from shield.io tries remaining: #{@@retry_count}".red
           sleep timeout.to_i
           @@retry_count -= 1
           return run(path, options)
@@ -70,18 +70,18 @@ module Badge
           end
         end
         if icon_changed
-          Helper.log.info "Badged \\o/!".green
+          UI.message "Badged \\o/!".green
         else
-          Helper.log.info "Did nothing... Enable --verbose for more info.".red
+          UI.message "Did nothing... Enable --verbose for more info.".red
         end
       else
-        Helper.log.error "Could not find any app icons...".red
+        UI.error "Could not find any app icons...".red
       end
     end
 
     def add_shield(icon, result, shield, alpha_channel, shield_gravity, shield_no_resize)
-      Helper.log.info "'#{icon.path}'"
-      Helper.log.info "Adding shield.io image ontop of icon".blue unless not $verbose
+      UI.message "'#{icon.path}'"
+      UI.verbose "Adding shield.io image ontop of icon".blue
 
       current_shield = MiniMagick::Image.open(shield.path)
       
@@ -93,7 +93,7 @@ module Badge
       
       result = result.composite(current_shield, 'png') do |c|
         c.compose "Over"
-        c.alpha 'On' unless !alpha_channel
+        c.alpha 'On' if alpha_channel
         if shield_gravity
           c.gravity shield_gravity
         else
@@ -106,8 +106,8 @@ module Badge
       url = Badge.shield_base_url + Badge.shield_path + shield_string + ".png"
       file_name = shield_string + ".png"
 
-      Helper.log.info "Trying to load image from shield.io. Timeout: #{Badge.shield_io_timeout}s".blue unless not $verbose
-      Helper.log.info "URL: #{url}".blue unless not $verbose
+      UI.verbose "Trying to load image from shield.io. Timeout: #{Badge.shield_io_timeout}s".blue
+      UI.verbose "URL: #{url}".blue
 
       shield = Tempfile.new(file_name).tap do |file|
         file.binmode
@@ -117,8 +117,8 @@ module Badge
     end
 
     def add_badge(custom_badge, dark_badge, icon, alpha_badge, alpha_channel)
-      Helper.log.info "'#{icon.path}'"
-      Helper.log.info "Adding badge image ontop of icon".blue unless not $verbose
+      UI.message "'#{icon.path}'"
+      UI.verbose "Adding badge image ontop of icon".blue
       if custom_badge && File.exist?(custom_badge) # check if custom image is provided
         badge = MiniMagick::Image.open(custom_badge)
       else
