@@ -32,6 +32,7 @@ class BadgeApplication
       c.option '--alpha_channel', 'Keeps/Adds an alpha channel to the icons'
       c.option '--custom STRING', String, 'Overlay a custom image on your icon'
       c.option '--no_badge', 'Removes the beta badge'
+      c.option '--badge_gravity STRING', String, 'Position of the badge on icon. Default: SouthEast - Choices include: NorthWest, North, NorthEast, West, Center, East, SouthWest, South, SouthEast.'
       c.option '--shield STRING', String, 'Overlay a shield from shield.io on your icon, eg: Version-1.2-green'
       c.option '--shield_io_timeout INTEGER', Integer, 'The timeout in seconds we should wait the get a response from shield.io'
       c.option '--shield_gravity STRING', String, 'Position of shield on icon. Default: North - Choices include: NorthWest, North, NorthEast, West, Center, East, SouthWest, South, SouthEast.'
@@ -43,6 +44,7 @@ class BadgeApplication
         params[:dark] = options.dark
         params[:custom] = options.custom
         params[:no_badge] = options.no_badge
+        params[:badge_gravity] = options.badge_gravity
         params[:shield] = options.shield
         params[:shield_gravity] = options.shield_gravity
         params[:shield_no_resize] = options.shield_no_resize

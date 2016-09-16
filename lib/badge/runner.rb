@@ -56,7 +56,7 @@ module Badge
           result = MiniMagick::Image.new(full_path)
           
           if !options[:no_badge]
-            result = add_badge(options[:custom], options[:dark], icon, options[:alpha], alpha_channel)
+            result = add_badge(options[:custom], options[:dark], icon, options[:alpha], alpha_channel, options[:badge_gravity])
             icon_changed = true
           end
           if shield
@@ -91,15 +91,7 @@ module Badge
         current_shield.resize "#{icon.width}x#{icon.height}>"
       end
       
-      result = result.composite(current_shield, 'png') do |c|
-        c.compose "Over"
-        c.alpha 'On' if alpha_channel
-        if shield_gravity
-          c.gravity shield_gravity
-        else
-          c.gravity "north"
-        end
-      end
+      result = composite(result, current_shield, alpha_channel, shield_gravity || "north")
     end
 
     def load_shield(shield_string)
@@ -116,7 +108,7 @@ module Badge
       end
     end
 
-    def add_badge(custom_badge, dark_badge, icon, alpha_badge, alpha_channel)
+    def add_badge(custom_badge, dark_badge, icon, alpha_badge, alpha_channel, badge_gravity)
       UI.message "'#{icon.path}'"
       UI.verbose "Adding badge image ontop of icon".blue
       if custom_badge && File.exist?(custom_badge) # check if custom image is provided
@@ -130,9 +122,14 @@ module Badge
       end
 
       badge.resize "#{icon.width}x#{icon.height}"
-      result = icon.composite(badge, 'png') do |c|
+      result = composite(icon, badge, alpha_channel, badge_gravity || "SouthEast")
+    end
+
+    def composite(image, overlay, alpha_channel, gravity)
+      image.composite(overlay, 'png') do |c|
         c.compose "Over"
         c.alpha 'On' unless !alpha_channel
+        c.gravity gravity
       end
     end
   end
