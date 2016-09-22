@@ -1,4 +1,4 @@
-badge - add a badge to your iOS/Android app icon
+badge - add a badge to your tvOS/iOS/Android app icon
 ============
 
 [![Twitter: @DanielGri](https://img.shields.io/badge/contact-@DanielGri-blue.svg?style=flat)](https://twitter.com/DanielGri)
@@ -7,7 +7,7 @@ badge - add a badge to your iOS/Android app icon
 
 # Features
 
-This gem helps to add a badge to your iOS/Android app icon.
+This gem helps to add a badge to your tvOS/iOS/Android app icon.
 
 Yes that's it.
 It's built to easily integrate with [fastlane](https://github.com/fastlane/fastlane).
@@ -56,7 +56,7 @@ Call ```badge``` in your iOS projects root folder
     
 It will search all subfolders for your asset catalog app icon set and add the badge to the icons. 
 
-But you can also run badge on your Android icons.
+But you can also run badge on your Android or tvOS icons.
 You have to use the `--glob="/**/*.appiconset/*.{png,PNG}"` parameter to adjust where to find your icons.
 
 The keep the alpha channel in the icons use `--alpha_channel`
