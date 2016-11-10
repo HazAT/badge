@@ -7,6 +7,7 @@ module Badge
     @@retry_count = Badge.shield_io_retries
 
     def run(path, options)
+      check_imagemagick!
       glob = "/**/*.appiconset/*.{png,PNG}"
       glob = options[:glob] if options[:glob]
 
@@ -107,7 +108,23 @@ module Badge
         file.close
       end
     end
+    def self.check_imagemagick!
+        return if `which convert`.include?('convert')
+        return if `which gm`.include?('gm')
 
+        UI.error("You have to install ImageMagick or GraphicsMagick to use `badge`")
+        UI.error("")
+        UI.error("Install it using (ImageMagick):")
+        UI.command("brew update && brew install imagemagick")
+        UI.error("")
+        UI.error("Install it using (GraphicsMagick):")
+        UI.command("brew update && brew install graphicsmagick")
+        UI.error("")
+        UI.error("If you don't have homebrew, visit http://brew.sh")
+
+        UI.user_error!("Install ImageMagick and start your lane again!")
+    end
+    
     def add_badge(custom_badge, dark_badge, icon, alpha_badge, alpha_channel, badge_gravity)
       UI.message "'#{icon.path}'"
       UI.verbose "Adding badge image ontop of icon".blue
