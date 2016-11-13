@@ -108,7 +108,8 @@ module Badge
         file.close
       end
     end
-    def self.check_imagemagick!
+    
+    def check_imagemagick!
         return if `which convert`.include?('convert')
         return if `which gm`.include?('gm')
 
