@@ -13,7 +13,7 @@ module Badge
 
     def run
       program :version, Badge::VERSION
-      program :description, 'Add a badge to your ios app icon'
+      program :description, 'Add a badge to your app icon'
       program :help, 'Author', 'Daniel Griesser <daniel.griesser.86@gmail.com>'
       program :help, 'Website', 'https://github.com/HazAT/badge'
       program :help, 'GitHub', 'https://github.com/HazAT/badge'
@@ -27,7 +27,7 @@ module Badge
 
       command :run do |c|
         c.syntax = 'badge'
-        c.description = "Adds a badge to your ios app icon"
+        c.description = "Adds a badge to your app icon"
 
         c.action do |args, options|
           params = FastlaneCore::Configuration.create(Badge::Options.available_options, options.__hash__)
