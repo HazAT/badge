@@ -50,7 +50,7 @@ Install the gem
 
 # Usage
 
-Call ```badge``` in your iOS projects root folder
+Call ```badge``` in your projects root folder
 
     badge
     
