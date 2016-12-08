@@ -1,66 +1,7 @@
 #!/usr/bin/env ruby
-
 $:.push File.expand_path("../../lib", __FILE__)
 
 require 'badge'
-require 'commander'
+require 'badge/commands_generator'
 
-HighLine.track_eof = false
-
-class BadgeApplication
-  include Commander::Methods
-
-  def run
-    program :version, Badge::VERSION
-    program :description, 'Add a badge to your ios app icon'
-    program :help, 'Author', 'Daniel Griesser <daniel.griesser.86@gmail.com>'
-    program :help, 'Website', 'https://github.com/HazAT/badge'
-    program :help, 'GitHub', 'https://github.com/HazAT/badge'
-    program :help_formatter, :compact
-
-    global_option('--verbose', 'Shows a more verbose output') { $verbose = true }
-
-    always_trace!
-
-    default_command :existing_project
-
-    command :existing_project do |c|
-      c.syntax = 'badge'
-      c.description = "Adds a badge to your ios app icon"
-      c.option '--dark', 'Adds a dark badge instead of the white'
-      c.option '--alpha', 'Uses the word alpha instead of beta'
-      c.option '--alpha_channel', 'Keeps/Adds an alpha channel to the icons'
-      c.option '--custom STRING', String, 'Overlay a custom image on your icon'
-      c.option '--no_badge', 'Removes the beta badge'
-      c.option '--badge_gravity STRING', String, 'Position of the badge on icon. Default: SouthEast - Choices include: NorthWest, North, NorthEast, West, Center, East, SouthWest, South, SouthEast.'
-      c.option '--shield STRING', String, 'Overlay a shield from shield.io on your icon, eg: Version-1.2-green'
-      c.option '--shield_io_timeout INTEGER', Integer, 'The timeout in seconds we should wait the get a response from shield.io'
-      c.option '--shield_gravity STRING', String, 'Position of shield on icon. Default: North - Choices include: NorthWest, North, NorthEast, West, Center, East, SouthWest, South, SouthEast.'
-      c.option '--shield_no_resize', 'Shield image will no longer be resized to aspect fill the full icon. Instead it will only be shrinked to not exceed the icon graphic.'
-      c.option '--glob STRING', String, 'Glob pattern for finding image files Default: CURRENT_PATH/**/*.appiconset/*.{png,PNG}'
-
-      c.action do |args, options|
-        params = {}
-        params[:dark] = options.dark
-        params[:custom] = options.custom
-        params[:no_badge] = options.no_badge
-        params[:badge_gravity] = options.badge_gravity
-        params[:shield] = options.shield
-        params[:shield_gravity] = options.shield_gravity
-        params[:shield_no_resize] = options.shield_no_resize
-        params[:shield_io_timeout] = options.shield_io_timeout
-        params[:alpha] = options.alpha
-        params[:glob] = options.glob
-        params[:alpha_channel] = options.alpha_channel
-        Badge::Runner.new.run('.', params)
-      end
-    end
-
-    run!
-  end
-end
-
-
-begin
-  BadgeApplication.new.run
-end
+Badge::CommandsGenerator.start

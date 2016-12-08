@@ -26,19 +26,19 @@ It's built to easily integrate with [fastlane](https://github.com/fastlane/fastl
 
 ![assets/icon175x175_alpha_light_badged.png](assets/icon175x175_alpha_light_badged.png?raw=1) ![assets/icon175x175_fitrack_alpha_light_badged.png](assets/icon175x175_fitrack_alpha_light_badged.png?raw=1)
 
-	badge --shield="1.2-2031-orange" --no_badge
+	badge --shield "1.2-2031-orange" --no_badge
 
 ![assets/icon175x175_shield_1.2-2031-orange.png](assets/icon175x175_shield_1.2-2031-orange.png?raw=1) ![assets/icon175x175_fitrack_shield_1.2-2031-orange.png](assets/icon175x175_fitrack_shield_1.2-2031-orange.png?raw=1)
 
-	badge --shield="1.2-2031-orange" --no_badge --shield_no_resize
+	badge --shield "1.2-2031-orange" --no_badge --shield_no_resize
 
 ![assets/icon175x175_shield_1.2-2031-orange-no-resize.png](assets/icon175x175_shield_1.2-2031-orange-no-resize.png?raw=1) ![assets/icon175x175_fitrack_shield_1.2-2031-orange-no-resize.png](assets/icon175x175_fitrack_shield_1.2-2031-orange-no-resize.png?raw=1)
 
-	badge --shield="Version-0.0.3-blue" --dark
+	badge --shield "Version-0.0.3-blue" --dark
 
 ![assets/icon175x175_shield_Version-0.0.3-blue.png](assets/icon175x175_shield_Version-0.0.3-blue.png?raw=1) ![assets/icon175x175_fitrack_shield_Version-0.0.3-blue.png](assets/icon175x175_fitrack_shield_Version-0.0.3-blue.png?raw=1)
 
-	badge --shield="Version-0.0.3-blue" --dark --shield_no_resize
+	badge --shield "Version-0.0.3-blue" --dark --shield_no_resize
 
 ![assets/icon175x175_shield_Version-0.0.3-blue-no-resize.png](assets/icon175x175_shield_Version-0.0.3-blue-no-resize.png?raw=1) ![assets/icon175x175_fitrack_shield_Version-0.0.3-blue-no-resize.png](assets/icon175x175_fitrack_shield_Version-0.0.3-blue-no-resize.png?raw=1)
 # Installation
@@ -50,14 +50,14 @@ Install the gem
 
 # Usage
 
-Call ```badge``` in your iOS projects root folder
+Call ```badge``` in your projects root folder
 
     badge
     
 It will search all subfolders for your asset catalog app icon set and add the badge to the icons. 
 
 But you can also run badge on your Android or tvOS icons.
-You have to use the `--glob="/**/*.appiconset/*.{png,PNG}"` parameter to adjust where to find your icons.
+You have to use the `--glob "/**/*.appiconset/*.{png,PNG}"` parameter to adjust where to find your icons.
 
 The keep the alpha channel in the icons use `--alpha_channel`
     
@@ -69,21 +69,21 @@ Here is the dark option (also available in combination with ```--alpha```):
 
 You can also use your custom overlay/badge image
 
-    badge --custom="path_to/custom_badge.png"
+    badge --custom "path_to/custom_badge.png"
     
 Add a shield at the top of your icon for all possibilites head over to: [shields.io](http://shields.io/). You just have to add the string of shield (copied from the URL)
 
-    badge --shield="Version-0.0.3-blue"
+    badge --shield "Version-0.0.3-blue"
     
-Sometimes the response from shield.io takes a long time and can timeout. You can adjust the timeout to shield.io with `--shield_io_timeout=10` accordingly.
+Sometimes the response from shield.io takes a long time and can timeout. You can adjust the timeout to shield.io with `--shield_io_timeout t 10` accordingly.
 
-`--shield_gravity=North` changes the postion of the shield on the icon. Choices include: NorthWest, North, NorthEast, West, Center, East, SouthWest, South, SouthEast.
+`--shield_gravity North` changes the postion of the shield on the icon. Choices include: NorthWest, North, NorthEast, West, Center, East, SouthWest, South, SouthEast.
 
 In version [0.4.0](https://github.com/HazAT/badge/releases/tag/0.4.0) the default behavior of the shield graphic has been changed. The shield graphic will always be resized to **aspect fill** the icon instead of just adding the shield on the icon. The disable to new behaviour use `--shield_no_resize` which now only puts the shield on the icon again.
 
 Add ```--no_badge``` as an option to hide the beta badge completely if you just want to add a shield. 
 
-Use `badge existing_project --help` to get list all possible parameters.
+Use `badge --help` to get list all possible parameters.
 
 # Usage with fastlane
 
