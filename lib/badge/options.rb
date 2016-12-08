@@ -3,7 +3,6 @@ require 'fastlane_core'
 module Badge
   class Options
     def self.available_options
-
       [
         FastlaneCore::ConfigItem.new(key: :dark,
                                      description: "Adds a dark badge instead of the white",
