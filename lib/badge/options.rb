@@ -51,7 +51,6 @@ module Badge
 
         FastlaneCore::ConfigItem.new(key: :shield_scale,
                                      description: "Shield image scale factor; e.g, 0.5, 2, etc. - works with --shield_no_resize",
-                                     is_string: false,
                                      optional: true),
 
         FastlaneCore::ConfigItem.new(key: :shield_no_resize,
