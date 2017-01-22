@@ -85,16 +85,19 @@ module Badge
       UI.message "'#{icon.path}'"
       UI.verbose "Adding shield.io image ontop of icon".blue
 
-      current_shield = MiniMagick::Image.open(shield.path)
-      shield_scale ||= 1.0
+      svg_shield = MiniMagick::Image.open(shield.path)
+      new_path = "#{shield.path}.png"
+      shield_scale = shield_scale ? shield_scale.to_f : 1.0
 
       if shield_no_resize
-        current_shield.density (90.5 * shield_scale.to_f).to_i
+        `rsvg-convert #{shield.path} -z #{shield_scale} -o #{new_path}`
       else
-        current_shield.density (icon.width.to_f / current_shield.width * 90.5 * shield_scale.to_f).to_i
+        `rsvg-convert #{shield.path} -w #{(icon.width * shield_scale).to_i} -a -o #{new_path}`
       end
 
-      result = composite(result, current_shield, alpha_channel, shield_gravity || "north", shield_geometry)
+      png_shield = MiniMagick::Image.open(new_path)
+
+      result = composite(result, png_shield, alpha_channel, shield_gravity || "north", shield_geometry)
     end
 
     def load_shield(shield_string)
