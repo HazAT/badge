@@ -1,6 +1,7 @@
 require 'fastimage'
 require 'timeout'
 require 'mini_magick'
+require 'curb'
 
 module Badge
   class Runner
@@ -61,7 +62,7 @@ module Badge
             icon_changed = true
           end
           if shield
-            result = add_shield(icon, result, shield, alpha_channel, options[:shield_gravity], options[:shield_no_resize])
+            result = add_shield(icon, result, shield, alpha_channel, options[:shield_gravity], options[:shield_no_resize], options[:shield_scale], options[:shield_geometry])
             icon_changed = true
           end
           
@@ -80,33 +81,32 @@ module Badge
       end
     end
 
-    def add_shield(icon, result, shield, alpha_channel, shield_gravity, shield_no_resize)
+    def add_shield(icon, result, shield, alpha_channel, shield_gravity, shield_no_resize, shield_scale, shield_geometry)
       UI.message "'#{icon.path}'"
       UI.verbose "Adding shield.io image ontop of icon".blue
 
       current_shield = MiniMagick::Image.open(shield.path)
-      
-      if icon.width > current_shield.width && !shield_no_resize
-        current_shield.resize "#{icon.width}x#{icon.height}<"
+      shield_scale ||= 1.0
+
+      if shield_no_resize
+        current_shield.density (90.5 * shield_scale.to_f).to_i
       else
-        current_shield.resize "#{icon.width}x#{icon.height}>"
+        current_shield.density (icon.width.to_f / current_shield.width * 90.5 * shield_scale.to_f).to_i
       end
-      
-      result = composite(result, current_shield, alpha_channel, shield_gravity || "north")
+
+      result = composite(result, current_shield, alpha_channel, shield_gravity || "north", shield_geometry)
     end
 
     def load_shield(shield_string)
-      url = Badge.shield_base_url + Badge.shield_path + shield_string + ".png"
-      file_name = shield_string + ".png"
+      url = Badge.shield_base_url + Badge.shield_path + shield_string + ".svg"
+      file_name = shield_string + ".svg"
 
       UI.verbose "Trying to load image from shield.io. Timeout: #{Badge.shield_io_timeout}s".blue
       UI.verbose "URL: #{url}".blue
 
-      shield = Tempfile.new(file_name).tap do |file|
-        file.binmode
-        file.write(open(url).read)
-        file.close
-      end
+      Curl::Easy.download(url, file_name)
+      
+      File.open(file_name)
     end
     
     def check_imagemagick!
@@ -143,11 +143,12 @@ module Badge
       result = composite(icon, badge, alpha_channel, badge_gravity || "SouthEast")
     end
 
-    def composite(image, overlay, alpha_channel, gravity)
+    def composite(image, overlay, alpha_channel, gravity, geometry = nil)
       image.composite(overlay, 'png') do |c|
         c.compose "Over"
         c.alpha 'On' unless !alpha_channel
         c.gravity gravity
+        c.geometry geometry if geometry
       end
     end
   end

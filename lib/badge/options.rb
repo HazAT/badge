@@ -41,8 +41,17 @@ module Badge
                                      type: Integer,
                                      optional: true),
 
+        FastlaneCore::ConfigItem.new(key: :shield_geometry,
+                                     description: "Position of shield on icon, relative to gravity e.g, +50+10%",
+                                     optional: true),
+
         FastlaneCore::ConfigItem.new(key: :shield_gravity,
                                      description: "Position of shield on icon. Default: North - Choices include: NorthWest, North, NorthEast, West, Center, East, South, West, South, SouthEast",
+                                     optional: true),
+
+        FastlaneCore::ConfigItem.new(key: :shield_scale,
+                                     description: "Shield image scale factor; e.g, 0.5, 2, etc. - works with --shield_no_resize",
+                                     is_string: false,
                                      optional: true),
 
         FastlaneCore::ConfigItem.new(key: :shield_no_resize,
