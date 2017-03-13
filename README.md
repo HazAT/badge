@@ -14,31 +14,50 @@ Yes that's it.
 It's built to easily integrate with [fastlane](https://github.com/fastlane/fastlane).
 
 ![assets/icon175x175.png](assets/icon175x175.png?raw=1) ![assets/icon175x175_fitrack.png](assets/icon175x175_fitrack.png?raw=1)
-
-	badge
+---
+```
+badge
+```
 
 ![assets/icon175x175_light_badged.png](assets/icon175x175_light_badged.png?raw=1) ![assets/icon175x175_fitrack_light_badged.png](assets/icon175x175_fitrack_light_badged.png?raw=1)
-
-	badge --dark
+---
+```
+badge --dark
+```
 
 ![assets/icon175x175_dark_badged.png](assets/icon175x175_dark_badged.png?raw=1) ![assets/icon175x175_fitrack_dark_badged.png](assets/icon175x175_fitrack_dark_badged.png?raw=1)
-
-    badge --alpha
+---
+```
+badge --alpha
+```
 
 ![assets/icon175x175_alpha_light_badged.png](assets/icon175x175_alpha_light_badged.png?raw=1) ![assets/icon175x175_fitrack_alpha_light_badged.png](assets/icon175x175_fitrack_alpha_light_badged.png?raw=1)
-
-	badge --shield "1.2-2031-orange" --no_badge
+---
+```
+badge --shield "1.2-2031-orange" --no_badge
+```
 
 ![assets/icon175x175_shield_1.2-2031-orange.png](assets/icon175x175_shield_1.2-2031-orange.png?raw=1) ![assets/icon175x175_fitrack_shield_1.2-2031-orange.png](assets/icon175x175_fitrack_shield_1.2-2031-orange.png?raw=1)
-
-	badge --shield "1.2-2031-orange" --no_badge --shield_no_resize
+---
+```
+badge --shield "1.2-2031-orange" --no_badge --shield_no_resize
+```
 
 ![assets/icon175x175_shield_1.2-2031-orange-no-resize.png](assets/icon175x175_shield_1.2-2031-orange-no-resize.png?raw=1) ![assets/icon175x175_fitrack_shield_1.2-2031-orange-no-resize.png](assets/icon175x175_fitrack_shield_1.2-2031-orange-no-resize.png?raw=1)
-
-	badge --shield "Version-0.0.3-blue" --dark
+---
+```
+badge --shield "Version-0.0.3-blue" --dark
+```
 
 ![assets/icon175x175_shield_Version-0.0.3-blue.png](assets/icon175x175_shield_Version-0.0.3-blue.png?raw=1) ![assets/icon175x175_fitrack_shield_Version-0.0.3-blue.png](assets/icon175x175_fitrack_shield_Version-0.0.3-blue.png?raw=1)
+---
+```
+badge --shield "Version-0.0.3-blue" --dark --shield_geometry "+0+25%" --shield_scale 0.75
+```
 
+![assets/icon175x175_shield_Version-0.0.3-blue-geo-scale.png](assets/icon175x175_shield_Version-0.0.3-blue-geo-scale.png?raw=1) ![assets/icon175x175_fitrack_shield_Version-0.0.3-blue-geo-scale.png](assets/icon175x175_fitrack_shield_Version-0.0.3-blue-geo-scale.png?raw=1)
+---
+ 
 # Installation
 
 Install the gem
@@ -73,7 +92,7 @@ Add a shield at the top of your icon for all possibilites head over to: [shields
 
     badge --shield "Version-0.0.3-blue"
     
-Sometimes the response from shield.io takes a long time and can timeout. You can adjust the timeout to shield.io with `--shield_io_timeout t 10` accordingly.
+Sometimes the response from shield.io takes a long time and can timeout. You can adjust the timeout to shield.io with `--shield_io_timeout 10` accordingly.
 
 `--shield_gravity North` changes the postion of the shield on the icon. Choices include: NorthWest, North, NorthEast, West, Center, East, SouthWest, South, SouthEast.
 

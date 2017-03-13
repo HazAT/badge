@@ -33,6 +33,11 @@ create-assets:
 	cp $(testflight_icon) assets/icon175x175_shield_Version-0.0.3-blue.png
 	bin/badge --shield "Version-0.0.3-blue" --dark --glob "/assets/icon175x175_shield_Version-0.0.3-blue.png"
 
+	cp $(fitrack_icon) assets/icon175x175_fitrack_shield_Version-0.0.3-blue-geo-scale.png
+	bin/badge --shield "Version-0.0.3-blue" --dark --shield_geometry "+0+25%" --shield_scale 0.75 --glob "/assets/icon175x175_fitrack_shield_Version-0.0.3-blue-geo-scale.png"
+	cp $(testflight_icon) assets/icon175x175_shield_Version-0.0.3-blue-geo-scale.png
+	bin/badge --shield "Version-0.0.3-blue" --dark --shield_geometry "+0+25%" --shield_scale 0.75 --glob "/assets/icon175x175_shield_Version-0.0.3-blue-geo-scale.png"
+
 build:
 	@echo "--> Make release"
 	gem build badge.gemspec
