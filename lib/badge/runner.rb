@@ -8,7 +8,7 @@ module Badge
     @@retry_count = Badge.shield_io_retries
 
     def run(path, options)
-      check_imagemagick!
+      check_tools!
       glob = "/**/*.appiconset/*.{png,PNG}"
       glob = options[:glob] if options[:glob]
 
@@ -34,7 +34,7 @@ module Badge
           end
         rescue Timeout::Error
           UI.error "Error loading image from shield.io timeout reached. Skipping Shield. Use --verbose for more info".red
-        rescue OpenURI::HTTPError => error
+        rescue Curl::Err::CurlError => error
           response = error.io
           UI.error "Error loading image from shield.io response Error. Skipping Shield. Use --verbose for more info".red
           UI.error response.status if $verbose
@@ -56,7 +56,7 @@ module Badge
           icon = MiniMagick::Image.new(full_path)
 
           result = MiniMagick::Image.new(full_path)
-          
+
           if !options[:no_badge]
             result = add_badge(options[:custom], options[:dark], icon, options[:alpha], alpha_channel, options[:badge_gravity])
             icon_changed = true
@@ -65,10 +65,10 @@ module Badge
             result = add_shield(icon, result, shield, alpha_channel, options[:shield_gravity], options[:shield_no_resize], options[:shield_scale], options[:shield_geometry])
             icon_changed = true
           end
-          
+
           if icon_changed
             result.format "png"
-            result.write full_path 
+            result.write full_path
           end
         end
         if icon_changed
@@ -85,7 +85,6 @@ module Badge
       UI.message "'#{icon.path}'"
       UI.verbose "Adding shield.io image ontop of icon".blue
 
-      svg_shield = MiniMagick::Image.open(shield.path)
       new_path = "#{shield.path}.png"
       shield_scale = shield_scale ? shield_scale.to_f : 1.0
 
@@ -95,9 +94,7 @@ module Badge
         `rsvg-convert #{shield.path} -w #{(icon.width * shield_scale).to_i} -a -o #{new_path}`
       end
 
-      png_shield = MiniMagick::Image.open(new_path)
-
-      result = composite(result, png_shield, alpha_channel, shield_gravity || "north", shield_geometry)
+      result = composite(result, MiniMagick::Image.open(new_path), alpha_channel, shield_gravity || "north", shield_geometry)
     end
 
     def load_shield(shield_string)
@@ -108,27 +105,34 @@ module Badge
       UI.verbose "URL: #{url}".blue
 
       Curl::Easy.download(url, file_name)
-      
+
       File.open(file_name)
     end
-    
-    def check_imagemagick!
+
+    def check_tools!
+        if !`which rsvg-convert`.include?('rsvg-convert')
+          UI.error("You have to install RSVG to use `badge`")
+          UI.error("")
+          UI.error("Install it using (RSVG):")
+          UI.command("brew install librsvg")
+          UI.user_error!("Install RSVG and start your lane again!")
+        end
         return if `which convert`.include?('convert')
         return if `which gm`.include?('gm')
 
         UI.error("You have to install ImageMagick or GraphicsMagick to use `badge`")
         UI.error("")
         UI.error("Install it using (ImageMagick):")
-        UI.command("brew update && brew install imagemagick")
+        UI.command("brew install imagemagick")
         UI.error("")
         UI.error("Install it using (GraphicsMagick):")
-        UI.command("brew update && brew install graphicsmagick")
+        UI.command("brew install graphicsmagick")
         UI.error("")
         UI.error("If you don't have homebrew, visit http://brew.sh")
 
         UI.user_error!("Install ImageMagick and start your lane again!")
     end
-    
+
     def add_badge(custom_badge, dark_badge, icon, alpha_badge, alpha_channel, badge_gravity)
       UI.message "'#{icon.path}'"
       UI.verbose "Adding badge image ontop of icon".blue
