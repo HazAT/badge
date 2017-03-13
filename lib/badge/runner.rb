@@ -63,6 +63,8 @@ module Badge
           end
           if shield
             result = add_shield(icon, result, shield, alpha_channel, options[:shield_gravity], options[:shield_no_resize], options[:shield_scale], options[:shield_geometry])
+            File.delete(shield) if File.exist?(shield)
+            File.delete("#{shield.path}.png") if File.exist?("#{shield.path}.png")
             icon_changed = true
           end
 
