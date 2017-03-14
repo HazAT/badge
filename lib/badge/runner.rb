@@ -13,8 +13,8 @@ module Badge
       glob = options[:glob] if options[:glob]
 
       app_icons = Dir.glob("#{path}#{glob}")
-      UI.verbose "Verbose active...".blue
-      UI.verbose "Parameters: #{options.inspect}".blue
+      UI.verbose "Verbose active... VERSION: #{Badge::VERSION}".blue
+      UI.verbose "Parameters: #{options.values.inspect}".blue
 
       alpha_channel = false
       if options[:alpha_channel]
@@ -37,7 +37,7 @@ module Badge
         rescue Curl::Err::CurlError => error
           response = error.io
           UI.error "Error loading image from shield.io response Error. Skipping Shield. Use --verbose for more info".red
-          UI.error response.status if $verbose
+          UI.verbose response.status if FastlaneCore::Globals.verbose?
           response_error = true
         end
 
@@ -63,8 +63,6 @@ module Badge
           end
           if shield
             result = add_shield(icon, result, shield, alpha_channel, options[:shield_gravity], options[:shield_no_resize], options[:shield_scale], options[:shield_geometry])
-            File.delete(shield) if File.exist?(shield)
-            File.delete("#{shield.path}.png") if File.exist?("#{shield.path}.png")
             icon_changed = true
           end
 
@@ -78,6 +76,9 @@ module Badge
         else
           UI.message "Did nothing... Enable --verbose for more info.".red
         end
+
+        File.delete(shield) if File.exist?(shield)
+        File.delete("#{shield.path}.png") if File.exist?("#{shield.path}.png")
       else
         UI.error "Could not find any app icons...".red
       end

@@ -19,7 +19,7 @@ module Badge
       program :help, 'GitHub', 'https://github.com/HazAT/badge'
       program :help_formatter, :compact
 
-      global_option('--verbose', 'Shows a more verbose output') { $verbose = true }
+      global_option('--verbose', 'Shows a more verbose output') { FastlaneCore::Globals.verbose = true }
 
       always_trace!
 
