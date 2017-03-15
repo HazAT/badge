@@ -77,8 +77,11 @@ module Badge
           UI.message "Did nothing... Enable --verbose for more info.".red
         end
 
-        File.delete(shield) if File.exist?(shield)
-        File.delete("#{shield.path}.png") if File.exist?("#{shield.path}.png")
+        if shield
+          File.delete(shield) if File.exist?(shield)
+          File.delete("#{shield.path}.png") if File.exist?("#{shield.path}.png")
+        end
+
       else
         UI.error "Could not find any app icons...".red
       end
