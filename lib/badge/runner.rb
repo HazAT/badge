@@ -6,6 +6,7 @@ require 'curb'
 module Badge
   class Runner
     @@retry_count = Badge.shield_io_retries
+    @@rsvg_enabled = true
 
     def run(path, options)
       check_tools!
@@ -91,21 +92,31 @@ module Badge
       UI.message "'#{icon.path}'"
       UI.verbose "Adding shield.io image ontop of icon".blue
 
-      new_path = "#{shield.path}.png"
       shield_scale = shield_scale ? shield_scale.to_f : 1.0
 
-      if shield_no_resize
-        `rsvg-convert #{shield.path} -z #{shield_scale} -o #{new_path}`
+      if @@rsvg_enabled
+        new_path = "#{shield.path}.png"
+        if shield_no_resize
+          `rsvg-convert #{shield.path} -z #{shield_scale} -o #{new_path}`
+        else
+          `rsvg-convert #{shield.path} -w #{(icon.width * shield_scale).to_i} -a -o #{new_path}`
+        end
+        new_shield = MiniMagick::Image.open(new_path)
       else
-        `rsvg-convert #{shield.path} -w #{(icon.width * shield_scale).to_i} -a -o #{new_path}`
+        new_shield = MiniMagick::Image.open(shield.path)
+        if icon.width > new_shield.width && !shield_no_resize
+          new_shield.resize "#{(icon.width * shield_scale).to_i}x#{icon.height}<"
+        else
+          new_shield.resize "#{icon.width}x#{icon.height}>"
+        end
       end
 
-      result = composite(result, MiniMagick::Image.open(new_path), alpha_channel, shield_gravity || "north", shield_geometry)
+      result = composite(result, new_shield, alpha_channel, shield_gravity || "north", shield_geometry)
     end
 
     def load_shield(shield_string)
-      url = Badge.shield_base_url + Badge.shield_path + shield_string + ".svg"
-      file_name = shield_string + ".svg"
+      url = Badge.shield_base_url + Badge.shield_path + shield_string + (@@rsvg_enabled ? ".svg" : ".png")
+      file_name = shield_string + (@@rsvg_enabled ? ".svg" : ".png")
 
       UI.verbose "Trying to load image from shield.io. Timeout: #{Badge.shield_io_timeout}s".blue
       UI.verbose "URL: #{url}".blue
@@ -117,11 +128,12 @@ module Badge
 
     def check_tools!
         if !`which rsvg-convert`.include?('rsvg-convert')
-          UI.error("You have to install RSVG to use `badge`")
-          UI.error("")
-          UI.error("Install it using (RSVG):")
+          UI.important("Install RSVG to get better results for shields ontop of your icon")
+          UI.important("")
+          UI.important("Install it using (RSVG):")
           UI.command("brew install librsvg")
-          UI.user_error!("Install RSVG and start your lane again!")
+          UI.important("")
+          @@rsvg_enabled = false
         end
         return if `which convert`.include?('convert')
         return if `which gm`.include?('gm')
