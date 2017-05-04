@@ -64,6 +64,20 @@ Install the gem
 
     sudo gem install badge
 
+# Requirements
+
+ImageMagick or GraphicsMagick command-line tool has to be installed. You can check if you have it installed by running
+
+    convert -version
+    
+To install ImageMagick or GraphicsMagick you can run
+
+    brew install imagemagick
+    
+or
+    
+    brew install graphicsmagick
+
 
 # Usage
 
