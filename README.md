@@ -73,8 +73,10 @@ Call ```badge``` in your projects root folder
     
 It will search all subfolders for your asset catalog app icon set and add the badge to the icons. 
 
-But you can also run badge on your Android or tvOS icons.
-You have to use the `--glob "/**/*.appiconset/*.{png,PNG}"` parameter to adjust where to find your icons.
+You can also run badge on your Android, tvOS icons, or any other iconset.
+You have to use the `--glob "/**/*.appiconset/*.{png,PNG}"` parameter to adjust where to find your icons. 
+
+:warning: Note that you have to use a `/` in the beginning of the custom path, even if you're not starting from the root path, f.ex. if your icons are in `res/ios/beta/Appicon/*`, your badge call would be `badge --glob "/res/ios/beta/Appicon/*"`
 
 The keep the alpha channel in the icons use `--alpha_channel`
     
