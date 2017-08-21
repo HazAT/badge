@@ -5,7 +5,7 @@ require 'curb'
 
 module Badge
   class Runner
-    @@retry_count = Badge.shield_io_retries
+    @@retry_attemps = 0
     @@rsvg_enabled = true
 
     def run(path, options)
@@ -26,7 +26,6 @@ module Badge
         UI.message "Start adding badges...".green
 
         shield = nil
-        response_error = false
         begin
           timeout = Badge.shield_io_timeout
           timeout = options[:shield_io_timeout] if options[:shield_io_timeout]
@@ -34,20 +33,25 @@ module Badge
             shield = load_shield(options[:shield]) if options[:shield]
           end
         rescue Timeout::Error
-          UI.error "Error loading image from shield.io timeout reached. Skipping Shield. Use --verbose for more info".red
+          UI.error "Error loading image from shield.io timeout reached. Use --verbose for more info".red
         rescue Curl::Err::CurlError => error
           response = error.io
-          UI.error "Error loading image from shield.io response Error. Skipping Shield. Use --verbose for more info".red
+          UI.error "Error loading image from shield.io response Error. Use --verbose for more info".red
           UI.verbose response.status if FastlaneCore::Globals.verbose?
-          response_error = true
+        rescue MiniMagick::Invalid
+          UI.error "Error validating image from shield.io. Use --verbose for more info".red
+        rescue Exception => error
+          UI.error "Other error occured. Use --verbose for more info".red
+          UI.verbose error if FastlaneCore::Globals.verbose?
         end
 
-        if @@retry_count <= 0
+        retry_limit = options[:shield_io_retry_count] || Badge.shield_io_retries
+        if @@retry_attemps >= retry_limit
           UI.error "Cannot load image from shield.io skipping it...".red
-        elsif response_error
-          UI.message "Waiting for #{timeout.to_i}s and retry to load image from shield.io tries remaining: #{@@retry_count}".red
+        else
+          UI.message "Waiting for #{timeout.to_i}s and retry to load image from shield.io tries remaining: #{retry_limit - @@retry_attemps}".red
           sleep timeout.to_i
-          @@retry_count -= 1
+          @@retry_attemps += 1
           return run(path, options)
         end
 
@@ -121,7 +125,8 @@ module Badge
       UI.verbose "Trying to load image from shield.io. Timeout: #{Badge.shield_io_timeout}s".blue
       UI.verbose "URL: #{url}".blue
 
-      Curl::Easy.download(url, file_name)
+      #Curl::Easy.download(url, file_name)
+      MiniMagick::Image.open(file_name)
 
       File.open(file_name)
     end
