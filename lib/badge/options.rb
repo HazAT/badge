@@ -41,11 +41,6 @@ module Badge
                                      type: Integer,
                                      optional: true),
 
-        FastlaneCore::ConfigItem.new(key: :shield_io_retry_count,
-                                     description: "The number of retries if shield.io error occures. Default: 10",
-                                     type: Integer,
-                                     optional: true),
-
         FastlaneCore::ConfigItem.new(key: :shield_geometry,
                                      description: "Position of shield on icon, relative to gravity e.g, +50+10%",
                                      optional: true),

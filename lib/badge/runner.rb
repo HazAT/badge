@@ -45,14 +45,15 @@ module Badge
           UI.verbose error if FastlaneCore::Globals.verbose?
         end
 
-        retry_limit = options[:shield_io_retry_count] || Badge.shield_io_retries
-        if @@retry_attemps >= retry_limit
-          UI.error "Cannot load image from shield.io skipping it...".red
-        else
-          UI.message "Waiting for #{timeout.to_i}s and retry to load image from shield.io tries remaining: #{retry_limit - @@retry_attemps}".red
-          sleep timeout.to_i
-          @@retry_attemps += 1
-          return run(path, options)
+        if options[:shield] && shield == nil
+          if @@retry_attemps >= Badge.shield_io_retries
+            UI.error "Cannot load image from shield.io skipping it...".red
+          else
+            UI.message "Waiting for #{timeout.to_i}s and retry to load image from shield.io tries remaining: #{Badge.shield_io_retries - @@retry_attemps}".red
+            sleep timeout.to_i
+            @@retry_attemps += 1
+            return run(path, options)
+          end
         end
 
         icon_changed = false
@@ -125,15 +126,15 @@ module Badge
       UI.verbose "Trying to load image from shield.io. Timeout: #{Badge.shield_io_timeout}s".blue
       UI.verbose "URL: #{url}".blue
 
-      #Curl::Easy.download(url, file_name)
-      MiniMagick::Image.open(file_name)
+      Curl::Easy.download(url, file_name)
+      MiniMagick::Image.open(file_name) unless @@rsvg_enabled
 
       File.open(file_name)
     end
 
     def check_tools!
         if !`which rsvg-convert`.include?('rsvg-convert')
-          UI.important("Install RSVG to get better results for shields ontop of your icon")
+          UI.important("Install RSVG to get better results for shields on top of your icon")
           UI.important("")
           UI.important("Install it using (RSVG):")
           UI.command("brew install librsvg")
