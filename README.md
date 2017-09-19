@@ -106,17 +106,18 @@ Use `badge --help` to get list all possible parameters.
 
 # Usage with fastlane
 
-I try to keep fastlane integration up-to-date with the gem version. So generally you can use every parameter with fastlane which is also available directly in the gem. It mainly depends how fast the pull requests get merged and a new version of fastlane is available. If there is a problem you can always fallback to the fastlane `sh "cd ..; badge --dark"` command to use everything like it is used in the command line.
+Please use the fastlane plugin: https://github.com/HazAT/fastlane-plugin-badge
+It has the same parameters as this gem.
 
 ```ruby
 lane :appstore do
   increment_build_number
   cocoapods
 
-  badge(dark: true) #or
-  #badge(alpha: true) #or
-  #badge(custom: "/Users/HazA/Desktop/badge.png") #or
-  #badge(shield: "Version-0.0.3-blue", no_badge: true)
+  add_badge(dark: true) #or
+  #add_badge(alpha: true) #or
+  #add_badge(custom: "/Users/HazA/Desktop/badge.png") #or
+  #add_badge(shield: "Version-0.0.3-blue", no_badge: true)
     
   xctool
   snapshot
