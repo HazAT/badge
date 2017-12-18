@@ -57,7 +57,7 @@ badge --shield "Version-0.0.3-blue" --dark --shield_geometry "+0+25%" --shield_s
 
 ![assets/icon175x175_shield_Version-0.0.3-blue-geo-scale.png](assets/icon175x175_shield_Version-0.0.3-blue-geo-scale.png?raw=1) ![assets/icon175x175_fitrack_shield_Version-0.0.3-blue-geo-scale.png](assets/icon175x175_fitrack_shield_Version-0.0.3-blue-geo-scale.png?raw=1)
 ---
- 
+
 # Installation
 
 Install the gem
@@ -70,16 +70,16 @@ Install the gem
 Call ```badge``` in your projects root folder
 
     badge
-    
-It will search all subfolders for your asset catalog app icon set and add the badge to the icons. 
+
+It will search all subfolders for your asset catalog app icon set and add the badge to the icons.
 
 You can also run badge on your Android, tvOS icons, or any other iconset.
-You have to use the `--glob "/**/*.appiconset/*.{png,PNG}"` parameter to adjust where to find your icons. 
+You have to use the `--glob "/**/*.appiconset/*.{png,PNG}"` parameter to adjust where to find your icons.
 
 :warning: Note that you have to use a `/` in the beginning of the custom path, even if you're not starting from the root path, f.ex. if your icons are in `res/ios/beta/Appicon/*`, your badge call would be `badge --glob "/res/ios/beta/Appicon/*"`
 
 The keep the alpha channel in the icons use `--alpha_channel`
-    
+
 *Be careful, it actually overwrites the icon files.*
 
 Here is the dark option (also available in combination with ```--alpha```):
@@ -89,18 +89,18 @@ Here is the dark option (also available in combination with ```--alpha```):
 You can also use your custom overlay/badge image
 
     badge --custom "path_to/custom_badge.png"
-    
+
 Add a shield at the top of your icon for all possibilites head over to: [shields.io](http://shields.io/). You just have to add the string of shield (copied from the URL)
 
     badge --shield "Version-0.0.3-blue"
     
-Sometimes the response from shield.io takes a long time and can timeout. You can adjust the timeout to shield.io with `--shield_io_timeout 10` accordingly.
+Sometimes the response from shields.io takes a long time and can timeout. You can adjust the timeout to shields.io with `--shield_io_timeout 10` accordingly.
 
 `--shield_gravity North` changes the postion of the shield on the icon. Choices include: NorthWest, North, NorthEast, West, Center, East, SouthWest, South, SouthEast.
 
 In version [0.4.0](https://github.com/HazAT/badge/releases/tag/0.4.0) the default behavior of the shield graphic has been changed. The shield graphic will always be resized to **aspect fill** the icon instead of just adding the shield on the icon. The disable to new behaviour use `--shield_no_resize` which now only puts the shield on the icon again.
 
-Add ```--no_badge``` as an option to hide the beta badge completely if you just want to add a shield. 
+Add ```--no_badge``` as an option to hide the beta badge completely if you just want to add a shield.
 
 Use `badge --help` to get list all possible parameters.
 
@@ -118,7 +118,7 @@ lane :appstore do
   #add_badge(alpha: true) #or
   #add_badge(custom: "/Users/HazA/Desktop/badge.png") #or
   #add_badge(shield: "Version-0.0.3-blue", no_badge: true)
-    
+
   xctool
   snapshot
   sigh
@@ -134,7 +134,7 @@ end
 If Jenkins has problems finding imagemagick on your mac add following env variable to your job:
 
 	PATH=$PATH:/usr/local/bin
-	
+
 Make sure you have imagemagick installed on your machine e.g. for Mac its:
 
 	brew install imagemagick

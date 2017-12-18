@@ -33,13 +33,13 @@ module Badge
             shield = load_shield(options[:shield]) if options[:shield]
           end
         rescue Timeout::Error
-          UI.error "Error loading image from shield.io timeout reached. Use --verbose for more info".red
+          UI.error "Error loading image from shields.io timeout reached. Use --verbose for more info".red
         rescue Curl::Err::CurlError => error
           response = error.io
-          UI.error "Error loading image from shield.io response Error. Use --verbose for more info".red
+          UI.error "Error loading image from shields.io response Error. Use --verbose for more info".red
           UI.verbose response.status if FastlaneCore::Globals.verbose?
         rescue MiniMagick::Invalid
-          UI.error "Error validating image from shield.io. Use --verbose for more info".red
+          UI.error "Error validating image from shields.io. Use --verbose for more info".red
         rescue Exception => error
           UI.error "Other error occured. Use --verbose for more info".red
           UI.verbose error if FastlaneCore::Globals.verbose?
@@ -47,9 +47,9 @@ module Badge
 
         if options[:shield] && shield == nil
           if @@retry_attemps >= Badge.shield_io_retries
-            UI.error "Cannot load image from shield.io skipping it...".red
+            UI.error "Cannot load image from shields.io skipping it...".red
           else
-            UI.message "Waiting for #{timeout.to_i}s and retry to load image from shield.io tries remaining: #{Badge.shield_io_retries - @@retry_attemps}".red
+            UI.message "Waiting for #{timeout.to_i}s and retry to load image from shields.io tries remaining: #{Badge.shield_io_retries - @@retry_attemps}".red
             sleep timeout.to_i
             @@retry_attemps += 1
             return run(path, options)
@@ -95,7 +95,7 @@ module Badge
 
     def add_shield(icon, result, shield, alpha_channel, shield_gravity, shield_no_resize, shield_scale, shield_geometry)
       UI.message "'#{icon.path}'"
-      UI.verbose "Adding shield.io image ontop of icon".blue
+      UI.verbose "Adding shields.io image ontop of icon".blue
 
       shield_scale = shield_scale ? shield_scale.to_f : 1.0
 
@@ -123,7 +123,7 @@ module Badge
       url = Badge.shield_base_url + Badge.shield_path + shield_string + (@@rsvg_enabled ? ".svg" : ".png")
       file_name = shield_string + (@@rsvg_enabled ? ".svg" : ".png")
 
-      UI.verbose "Trying to load image from shield.io. Timeout: #{Badge.shield_io_timeout}s".blue
+      UI.verbose "Trying to load image from shields.io. Timeout: #{Badge.shield_io_timeout}s".blue
       UI.verbose "URL: #{url}".blue
 
       Curl::Easy.download(url, file_name)

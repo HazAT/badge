@@ -33,11 +33,11 @@ module Badge
                                      optional: true),
 
         FastlaneCore::ConfigItem.new(key: :shield,
-                                     description: "Overlay a shield from shield.io on your icon, eg: Version-1.2-green",
+                                     description: "Overlay a shield from shields.io on your icon, eg: Version-1.2-green",
                                      optional: true),
 
         FastlaneCore::ConfigItem.new(key: :shield_io_timeout,
-                                     description: "The timeout in seconds we should wait the get a response from shield.io",
+                                     description: "The timeout in seconds we should wait the get a response from shields.io",
                                      type: Integer,
                                      optional: true),
 
