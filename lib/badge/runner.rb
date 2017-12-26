@@ -17,6 +17,11 @@ module Badge
       UI.verbose "Verbose active... VERSION: #{Badge::VERSION}".blue
       UI.verbose "Parameters: #{options.values.inspect}".blue
 
+      if options[:custom] && !File.exist?(options[:custom])
+        UI.error("Could not find custom badge image")
+        UI.user_error!("Specify a valid custom badge image path!")
+      end
+
       alpha_channel = false
       if options[:alpha_channel]
         alpha_channel = true
