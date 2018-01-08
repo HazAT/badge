@@ -27,11 +27,7 @@ module Badge
 		File.join assets, 'alpha_badge_dark.png'
 	end
 
-	def self.shield_service_name
-		'shields.io'
-	end
-
-	def self.shield_serveice_base_url
+	def self.shield_base_url
 		'https://img.shields.io'
 	end
 
@@ -39,11 +35,11 @@ module Badge
 		'/badge/'
 	end
 
-	def self.shield_service_timeout
+	def self.shield_io_timeout
 		10
 	end
 
-	def self.shield_service_retries
+	def self.shield_io_retries
 		10
 	end
 
