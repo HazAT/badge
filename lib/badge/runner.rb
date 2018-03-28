@@ -76,6 +76,10 @@ module Badge
             result = add_shield(icon, result, shield, alpha_channel, options[:shield_gravity], options[:shield_no_resize], options[:shield_scale], options[:shield_geometry])
             icon_changed = true
           end
+          if options[:grayscale]
+            result.colorspace 'gray'
+            icon_changed = true
+          end
 
           if icon_changed
             result.format "png"
