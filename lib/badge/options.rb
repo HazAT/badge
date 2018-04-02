@@ -2,6 +2,7 @@ require 'fastlane_core'
 
 module Badge
   class Options
+    AVAILABLE_GRAVITIES = %w(NorthWest North NorthEast West Center East SouthWest South SouthEast)
     def self.available_options
       [
         FastlaneCore::ConfigItem.new(key: :dark,
@@ -29,7 +30,10 @@ module Badge
                                      optional: true),
 
         FastlaneCore::ConfigItem.new(key: :badge_gravity,
-                                     description: "Position of the badge on icon. Default: SouthEast - Choices include: NorthWest, North, NorthEast, West, Center, East, SouthWest, South, SouthEast",
+                                     description: "Position of the badge on icon. Default: SouthEast - Choices include: #{AVAILABLE_GRAVITIES.join(', ')}",
+                                     verify_block: proc do |value|
+                                       UI.user_error!("badge_gravity #{value} is invalid") unless AVAILABLE_GRAVITIES.include?
+                                     end,
                                      optional: true),
 
         FastlaneCore::ConfigItem.new(key: :shield,
