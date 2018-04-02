@@ -1,7 +1,7 @@
 require 'fastimage'
 require 'timeout'
 require 'mini_magick'
-require 'curb'
+require 'open-uri'
 
 module Badge
   class Runner
@@ -39,7 +39,7 @@ module Badge
           end
         rescue Timeout::Error
           UI.error "Error loading image from shields.io timeout reached. Use --verbose for more info".red
-        rescue Curl::Err::CurlError => error
+        rescue OpenURI::HTTPError => error
           response = error.io
           UI.error "Error loading image from shields.io response Error. Use --verbose for more info".red
           UI.verbose response.status if FastlaneCore::Globals.verbose?
@@ -87,12 +87,6 @@ module Badge
         else
           UI.message "Did nothing... Enable --verbose for more info.".red
         end
-
-        if shield
-          File.delete(shield) if File.exist?(shield)
-          File.delete("#{shield.path}.png") if File.exist?("#{shield.path}.png")
-        end
-
       else
         UI.error "Could not find any app icons...".red
       end
@@ -126,15 +120,11 @@ module Badge
 
     def load_shield(shield_string)
       url = Badge.shield_base_url + Badge.shield_path + shield_string + (@@rsvg_enabled ? ".svg" : ".png")
-      file_name = shield_string + (@@rsvg_enabled ? ".svg" : ".png")
 
       UI.verbose "Trying to load image from shields.io. Timeout: #{Badge.shield_io_timeout}s".blue
       UI.verbose "URL: #{url}".blue
 
-      Curl::Easy.download(url, file_name)
-      MiniMagick::Image.open(file_name) unless @@rsvg_enabled
-
-      File.open(file_name)
+      MiniMagick::Image.open(url)
     end
 
     def check_tools!

@@ -20,7 +20,6 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency 'curb', '~> 0.9'
   spec.add_dependency 'fastlane', '>= 2.0'
   spec.add_dependency 'fastimage', '>= 1.6' # fetch the image sizes
   spec.add_dependency 'mini_magick', '>= 4.5' # to add badge image on app icon
