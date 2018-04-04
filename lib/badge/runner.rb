@@ -68,6 +68,10 @@ module Badge
 
           result = MiniMagick::Image.new(full_path)
 
+          if options[:grayscale]
+            result.colorspace 'gray'
+            icon_changed = true
+          end
           if !options[:no_badge]
             result = add_badge(options[:custom], options[:dark], icon, options[:alpha], alpha_channel, options[:badge_gravity])
             icon_changed = true
@@ -76,7 +80,6 @@ module Badge
             result = add_shield(icon, result, shield, alpha_channel, options[:shield_gravity], options[:shield_no_resize], options[:shield_scale], options[:shield_geometry])
             icon_changed = true
           end
-
           if icon_changed
             result.format "png"
             result.write full_path

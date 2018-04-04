@@ -57,6 +57,12 @@ badge --shield "Version-0.0.3-blue" --dark --shield_geometry "+0+25%" --shield_s
 
 ![assets/icon175x175_shield_Version-0.0.3-blue-geo-scale.png](assets/icon175x175_shield_Version-0.0.3-blue-geo-scale.png?raw=1) ![assets/icon175x175_fitrack_shield_Version-0.0.3-blue-geo-scale.png](assets/icon175x175_fitrack_shield_Version-0.0.3-blue-geo-scale.png?raw=1)
 ---
+```
+badge --grayscale --shield "Version-0.0.3-blue" --dark
+```
+
+![assets/icon175x175_grayscale.png](assets/icon175x175_grayscale.png?raw=1) ![assets/icon175x175_fitrack_grayscale.png](assets/icon175x175_fitrack_grayscale.png?raw=1)
+---
 
 # Installation
 

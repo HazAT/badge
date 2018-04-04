@@ -60,6 +60,12 @@ module Badge
 
         FastlaneCore::ConfigItem.new(key: :glob,
                                      description: "Glob pattern for finding image files Default: CURRENT_PATH/**/*.appiconset/*.{png,PNG}",
+                                     optional: true),
+
+        FastlaneCore::ConfigItem.new(key: :grayscale,
+                                     description: "Whether making icons to grayscale",
+                                     is_string: false,
+                                     default_value: false,
                                      optional: true)
       ]
     end
