@@ -32,7 +32,7 @@ module Badge
         FastlaneCore::ConfigItem.new(key: :badge_gravity,
                                      description: "Position of the badge on icon. Default: SouthEast - Choices include: #{AVAILABLE_GRAVITIES.join(', ')}",
                                      verify_block: proc do |value|
-                                       UI.user_error!("badge_gravity #{value} is invalid") unless AVAILABLE_GRAVITIES.include?
+                                       UI.user_error!("badge_gravity #{value} is invalid") unless AVAILABLE_GRAVITIES.map(&:upcase).include? value.upcase
                                      end,
                                      optional: true),
 
