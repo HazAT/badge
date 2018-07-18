@@ -40,6 +40,10 @@ module Badge
                                      description: "Overlay a shield from shields.io on your icon, eg: Version-1.2-green",
                                      optional: true),
 
+        FastlaneCore::ConfigItem.new(key: :shield_parameters,
+                                     description: "Parameters of the shield image. String of key-value pairs separated by ampersand as specified on shields.io, eg: colorA=abcdef&style=flat",
+                                     optional: true),
+
         FastlaneCore::ConfigItem.new(key: :shield_io_timeout,
                                      description: "The timeout in seconds we should wait the get a response from shields.io",
                                      type: Integer,
