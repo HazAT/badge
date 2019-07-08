@@ -28,7 +28,7 @@ module Badge
 	end
 
 	def self.shield_base_url
-		'https://img.shields.io'
+		'https://raster.shields.io'
 	end
 
 	def self.shield_path
