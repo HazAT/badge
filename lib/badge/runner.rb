@@ -137,7 +137,10 @@ module Badge
       UI.verbose "Trying to load image from shields.io. Timeout: #{Badge.shield_io_timeout}s".blue
       UI.verbose "URL: #{url}".blue
 
-      Curl::Easy.download(url, file_name)
+      Curl::Easy.download(url, file_name) do |curl|
+        curl.follow_location = true
+      end
+
       MiniMagick::Image.open(file_name) unless @@rsvg_enabled
 
       File.open(file_name)
