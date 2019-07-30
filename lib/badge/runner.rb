@@ -109,10 +109,15 @@ module Badge
 
       if @@rsvg_enabled
         new_path = "#{shield.path}.png"
-        if shield_no_resize
-          `rsvg-convert #{shield.path} -z #{shield_scale} -o #{new_path}`
-        else
-          `rsvg-convert #{shield.path} -w #{(icon.width * shield_scale).to_i} -a -o #{new_path}`
+        begin
+          if shield_no_resize
+            `rsvg-convert #{shield.path} -z #{shield_scale} -o #{new_path}`
+          else
+            `rsvg-convert #{shield.path} -w #{(icon.width * shield_scale).to_i} -a -o #{new_path}`
+          end
+        rescue Exception => error
+          UI.error "Other error occured. Use --verbose for more info".red
+          UI.verbose error if FastlaneCore::Globals.verbose?
         end
         new_shield = MiniMagick::Image.open(new_path)
       else
@@ -128,7 +133,7 @@ module Badge
     end
 
     def load_shield(shield_string, shield_parameters)
-      url = Badge.shield_base_url + Badge.shield_path + shield_string + (@@rsvg_enabled ? ".svg" : ".png")
+      url = (@@rsvg_enabled ? Badge.shield_svg_base_url : Badge.shield_base_url) + Badge.shield_path + shield_string + (@@rsvg_enabled ? ".svg" : ".png")
       if shield_parameters
         url = url + "?" + shield_parameters
       end
