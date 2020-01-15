@@ -23,6 +23,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'curb', '~> 0.9'
   spec.add_dependency 'fastlane', '>= 2.0'
   spec.add_dependency 'fastimage', '>= 1.6' # fetch the image sizes
-  spec.add_dependency 'mini_magick', '~> 4.9.5' # to add badge image on app icon
+  spec.add_dependency('mini_magick', '>= 4.9.4', '< 5.0.0') # to add badge image on app icon
 
 end
