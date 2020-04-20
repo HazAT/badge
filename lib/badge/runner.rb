@@ -111,9 +111,9 @@ module Badge
         new_path = "#{shield.path}.png"
         begin
           if shield_no_resize
-            `rsvg-convert #{shield.path} -z #{shield_scale} -o #{new_path}`
+            `rsvg-convert -z #{shield_scale} -o #{new_path} -- #{shield.path}`
           else
-            `rsvg-convert #{shield.path} -w #{(icon.width * shield_scale).to_i} -a -o #{new_path}`
+            `rsvg-convert -w #{(icon.width * shield_scale).to_i} -a -o #{new_path} -- #{shield.path}`
           end
         rescue Exception => error
           UI.error "Other error occured. Use --verbose for more info".red
