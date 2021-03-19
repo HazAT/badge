@@ -11,7 +11,7 @@ module Badge
                                      optional: true),
 
         FastlaneCore::ConfigItem.new(key: :alpha,
-                                     description: "Uses the work alpha instead of beta",
+                                     description: "Uses the word alpha instead of beta",
                                      is_string: false,
                                      optional: true),
 
@@ -45,7 +45,7 @@ module Badge
                                      optional: true),
 
         FastlaneCore::ConfigItem.new(key: :shield_io_timeout,
-                                     description: "The timeout in seconds we should wait the get a response from shields.io",
+                                     description: "The timeout in seconds we should wait to get a response from shields.io",
                                      type: Integer,
                                      optional: true),
 
@@ -65,12 +65,12 @@ module Badge
                                      optional: true),
 
         FastlaneCore::ConfigItem.new(key: :shield_no_resize,
-                                     description: "Shield image will no longer be resized to aspect fill the full icon. Instead it will only be shrinked to not exceed the icon graphic",
+                                     description: "Shield image will no longer be resized to aspect fill the full icon. Instead it will only be shrunk to not exceed the icon graphic",
                                      is_string: false,
                                      optional: true),
 
         FastlaneCore::ConfigItem.new(key: :glob,
-                                     description: "Glob pattern for finding image files Default: CURRENT_PATH/**/*.appiconset/*.{png,PNG}",
+                                     description: "Glob pattern for finding image files. Default: CURRENT_PATH/**/*.appiconset/*.{png,PNG}",
                                      optional: true),
 
         FastlaneCore::ConfigItem.new(key: :grayscale,
