@@ -21,8 +21,10 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency 'curb', '~> 0.9'
-  spec.add_dependency 'fastlane', '>= 2.0'
   spec.add_dependency 'fastimage', '>= 1.6' # fetch the image sizes
   spec.add_dependency('mini_magick', '>= 4.9.4', '< 5.0.0') # to add badge image on app icon
 
+  # Don't add a dependency to fastlane or fastlane_re
+  # since this would cause a circular dependency
+  spec.add_development_dependency 'fastlane', '>= 2.0'
 end
