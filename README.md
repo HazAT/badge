@@ -106,7 +106,7 @@ Sometimes the response from shields.io takes a long time and can timeout. You ca
 
 `--shield_parameters "colorA=abcdef&style=flat"` changes the parameters of the shield image. It uses a string of key-value pairs separated by ampersand as specified on shields.io, eg: colorA=abcdef&style=flat.
 
-In version [0.4.0](https://github.com/HazAT/badge/releases/tag/0.4.0) the default behavior of the shield graphic has been changed. The shield graphic will always be resized to **aspect fill** the icon instead of just adding the shield on the icon. The disable to new behaviour use `--shield_no_resize` which now only puts the shield on the icon again.
+In version [0.4.0](https://github.com/HazAT/badge/releases/tag/0.4.0) the default behavior of the shield graphic has been changed. The shield graphic will always be resized to **aspect fill** the icon instead of just adding the shield on the icon. To disable the new behaviour use `--shield_no_resize` which now only puts the shield on the icon again.
 
 Add ```--no_badge``` as an option to hide the beta badge completely if you just want to add a shield.
 
