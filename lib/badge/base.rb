@@ -1,6 +1,6 @@
 module Badge
 
-	VERSION = "0.8.7"
+	VERSION = "0.12.0"
 	DESCRIPTION = "Add a badge overlay to your app icon"
 
 	def self.root
@@ -28,6 +28,10 @@ module Badge
 	end
 
 	def self.shield_base_url
+		'https://raster.shields.io'
+	end
+
+	def self.shield_svg_base_url
 		'https://img.shields.io'
 	end
 
