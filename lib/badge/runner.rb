@@ -1,4 +1,3 @@
-require 'fastimage'
 require 'timeout'
 require 'mini_magick'
 require 'open-uri'
