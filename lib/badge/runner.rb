@@ -72,7 +72,7 @@ module Badge
             icon_changed = true
           end
           if !options[:no_badge]
-            result = add_badge(options[:custom], options[:dark], icon, options[:alpha], alpha_channel, options[:badge_gravity])
+            result = add_badge(options[:custom], options[:dark], icon, options[:alpha], alpha_channel, options[:badge_gravity], options[:badge_scale])
             icon_changed = true
           end
           if shield
@@ -162,7 +162,7 @@ module Badge
         UI.user_error!("Install ImageMagick and start your lane again!")
     end
 
-    def add_badge(custom_badge, dark_badge, icon, alpha_badge, alpha_channel, badge_gravity)
+    def add_badge(custom_badge, dark_badge, icon, alpha_badge, alpha_channel, badge_gravity, badge_scale)
       UI.message "'#{icon.path}'"
       UI.verbose "Adding badge image ontop of icon".blue
       if custom_badge && File.exist?(custom_badge) # check if custom image is provided
@@ -174,8 +174,9 @@ module Badge
           badge = MiniMagick::Image.open(dark_badge ? Badge.beta_dark_badge : Badge.beta_light_badge)
         end
       end
-
-      badge.resize "#{icon.width}x#{icon.height}"
+      
+      badge_scale = badge_scale ? badge_scale.to_f : 1.0
+      badge.resize "#{(icon.width * badge_scale).to_i}x#{(icon.height * badge_scale).to_i}"
       result = composite(icon, badge, alpha_channel, badge_gravity || "SouthEast")
     end
 

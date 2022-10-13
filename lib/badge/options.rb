@@ -36,6 +36,10 @@ module Badge
                                      end,
                                      optional: true),
 
+        FastlaneCore::ConfigItem.new(key: :badge_scale,
+                                     description: "Badge image scale factor; e.g, 0.5, 2, etc",
+                                     optional: true),
+
         FastlaneCore::ConfigItem.new(key: :shield,
                                      description: "Overlay a shield from shields.io on your icon, eg: Version-1.2-green",
                                      optional: true),
