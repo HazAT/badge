@@ -26,6 +26,11 @@ build/
 /lib/bundler/man/
 /vendor/
 
+## pi agent artifacts — track skills and config only, ignore everything else
+/.pi/*
+!/.pi/skills/
+!/.pi/settings.json
+
 # for a library or gem, you might want to ignore these files since the code is
 # intended to run in multiple environments; otherwise, check them in:
 # Gemfile.lock

@@ -58,20 +58,25 @@ and globs the filesystem directly. Don't wire them together.
 
 ## Release process (for maintainers)
 
+TL;DR:
+
 ```bash
 # 1. Bump VERSION in lib/badge/base.rb, merge to master.
-make build
+make smoke && make build
 git tag -a X.Y.Z -m "Release X.Y.Z" master
 git push origin X.Y.Z
 gem push badge-X.Y.Z.gem
-# 2. Optional: GitHub release — match 2018-era style: empty title, bullet
-#    list of PRs with `#N` refs inline.
 gh release create X.Y.Z --title "" --notes '- feat: …
 - fix: …'
 ```
 
 The sister gem `fastlane-plugin-badge` pins `badge ~> 0.X.0`, so patch
 releases ship to fastlane users automatically.
+
+For the full walkthrough — preflight checks, the macOS `/usr/bin/gem`
+gotcha, GitHub release house style, verification — see
+[`.pi/skills/release/SKILL.md`](.pi/skills/release/SKILL.md) or invoke
+the `/release` skill.
 
 ## Gotchas
 
