@@ -9,12 +9,22 @@ module Badge
 
     def run(path, options)
       check_tools!
-      glob = "/**/*.appiconset/*.{png,PNG}"
-      glob = options[:glob] if options[:glob]
-
-      app_icons = Dir.glob("#{path}#{glob}")
       UI.verbose "Verbose active... VERSION: #{Badge::VERSION}".blue
       UI.verbose "Parameters: #{options.values.inspect}".blue
+
+      # If custom glob is provided, use legacy behavior for backward compatibility
+      if options[:glob]
+        UI.verbose "Using custom glob pattern (legacy mode)".blue
+        glob = options[:glob]
+        app_icons = Dir.glob("#{path}#{glob}")
+      else
+        # Use new IconCatalog approach to intelligently detect icon formats
+        UI.verbose "Using smart icon detection with Contents.json parsing".blue
+        catalogs = IconCatalog.find_catalogs(path, options[:glob])
+        app_icons = catalogs.flat_map(&:badgeable_icons)
+      end
+
+      UI.verbose "Found #{app_icons.count} icon file(s) to badge".blue
 
       if options[:custom] && !File.exist?(options[:custom])
         UI.error("Could not find custom badge image")
