@@ -52,6 +52,11 @@ module Badge
                                      description: "Parameters of the shield image. String of key-value pairs separated by ampersand as specified on shields.io, eg: colorA=abcdef&style=flat",
                                      optional: true),
 
+        FastlaneCore::ConfigItem.new(key: :shield_base_url,
+                                     env_name: "BADGE_SHIELD_BASE_URL",
+                                     description: "Override the shields.io base URL (e.g. to point at a self-hosted shields server or to work around shields.io outages). Applies to both SVG and PNG requests",
+                                     optional: true),
+
         FastlaneCore::ConfigItem.new(key: :shield_io_timeout,
                                      env_name: "BADGE_SHIELD_IO_TIMEOUT",
                                      description: "The timeout in seconds we should wait to get a response from shields.io",

@@ -44,7 +44,7 @@ module Badge
           timeout = Badge.shield_io_timeout
           timeout = options[:shield_io_timeout] if options[:shield_io_timeout]
           Timeout.timeout(timeout.to_i) do
-            shield = load_shield(options[:shield], options[:shield_parameters]) if options[:shield]
+            shield = load_shield(options[:shield], options[:shield_parameters], options[:shield_base_url]) if options[:shield]
           end
         rescue Timeout::Error
           UI.error "Error loading image from shields.io timeout reached. Use --verbose for more info".red
@@ -90,7 +90,11 @@ module Badge
             icon_changed = true
           end
           if icon_changed
-            result.format "png"
+            # Preserve the original file format (webp, jpg, png, ...) so we
+            # don't silently write PNG bytes into a .webp filename. Falls back
+            # to png if the input has no recognizable extension.
+            ext = icon_path.extname.downcase.delete('.')
+            result.format(ext.empty? ? 'png' : ext)
             result.write full_path
           end
         end
@@ -113,10 +117,17 @@ module Badge
       if @@rsvg_enabled
         new_path = "#{shield.path}.png"
         begin
+          # Use argv-form system() instead of backticks so paths and scale
+          # values can never be interpreted by the shell (avoids e.g. the
+          # "Multiple SVG files are only allowed for PDF and (E)PS output"
+          # error caused by unquoted shield paths, #54).
           if shield_no_resize
-            `rsvg-convert -z #{shield_scale} -o #{new_path} -- #{shield.path}`
+            system('rsvg-convert', '-z', shield_scale.to_s,
+                   '-o', new_path, '--', shield.path)
           else
-            `rsvg-convert -w #{(icon.width * shield_scale).to_i} -a -o #{new_path} -- #{shield.path}`
+            system('rsvg-convert',
+                   '-w', (icon.width * shield_scale).to_i.to_s, '-a',
+                   '-o', new_path, '--', shield.path)
           end
         rescue Exception => error
           UI.error "Other error occured. Use --verbose for more info".red
@@ -135,8 +146,10 @@ module Badge
       result = composite(result, new_shield, alpha_channel, shield_gravity || "north", shield_geometry)
     end
 
-    def load_shield(shield_string, shield_parameters)
-      url = (@@rsvg_enabled ? Badge.shield_svg_base_url : Badge.shield_base_url) + Badge.shield_path + shield_string + (@@rsvg_enabled ? ".svg" : ".png")
+    def load_shield(shield_string, shield_parameters, shield_base_url = nil)
+      svg_base = shield_base_url || Badge.shield_svg_base_url
+      png_base = shield_base_url || Badge.shield_base_url
+      url = (@@rsvg_enabled ? svg_base : png_base) + Badge.shield_path + shield_string + (@@rsvg_enabled ? ".svg" : ".png")
       if shield_parameters
         url = url + "?" + shield_parameters
       end
