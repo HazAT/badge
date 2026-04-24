@@ -1,6 +1,11 @@
 fitrack_icon := assets/icon175x175_fitrack.png
 testflight_icon := assets/icon175x175.png
 
+.PHONY: smoke build create-assets
+
+smoke:
+	@./test/smoke.sh
+
 create-assets:
 	@echo "--> Recreating all assets for readme"
 	cp $(fitrack_icon) assets/icon175x175_fitrack_light_badged.png

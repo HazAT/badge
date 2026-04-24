@@ -16,19 +16,30 @@ from fastlane. Core logic is a MiniMagick composite plus an optional
 | `lib/badge/commands_generator.rb` | Commander CLI wiring |
 | `bin/badge` | Executable entry point |
 | `assets/` | Default badge PNGs (shipped in the gem) + README demo fixtures |
-| `Makefile` | `make build` (release gem) / `make create-assets` (regen demos) |
+| `test/smoke.sh` | Integration-test harness — 20 end-to-end cases across every flag combo |
+| `Makefile` | `make build` (release gem) / `make smoke` (run smoke tests) / `make create-assets` (regen README demos) |
 
-## No tests, no CI — verify manually
+## Verifying changes
 
-There is no test suite and no CI. Claims like "fixed" require actually
-running the thing and showing output.
+There is no CI. Before every PR and every release, run the smoke suite:
+
+```bash
+bundle install             # once
+make smoke                 # 20 end-to-end cases, ~30s, mutates only $TMPDIR
+```
+
+`test/smoke.sh` exercises every CLI flag combo from the Makefile,
+multi-format input preservation (webp/jpg), the `shield_base_url`
+override, and the `IconCatalog` auto-detect path. Run with
+`KEEP_ARTIFACTS=1 make smoke` to keep the output images for visual
+inspection.
+
+Other useful commands:
 
 ```bash
 make build                 # → badge-X.Y.Z.gem, proves the gemspec packages
-bin/badge --help           # option surface smoke test
-make create-assets         # poor-man's integration test: every flag combo
-                           # against two real fixtures. ⚠️ mutates assets/,
-                           # so run it in a temp copy.
+bin/badge --help           # eyeball the CLI option surface
+make create-assets         # regenerate the README demo assets (⚠️ mutates assets/)
 ```
 
 System deps: `brew install imagemagick librsvg`. ImageMagick (or
